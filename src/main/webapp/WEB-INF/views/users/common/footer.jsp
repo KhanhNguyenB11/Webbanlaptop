@@ -35,26 +35,7 @@
 				<li>11111 Trần Đại Nghĩa - Quận Hai Bà Trưng</li>
 			</ul>
 		</li>
-		<li>
-			<ul style="width: 250px; height: 100px;">
-				<div id="fb-root"></div>
-				<script async defer crossorigin="anonymous"
-					src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v8.0"
-					nonce="yMhMH4ej"></script>
-				<div class="fb-page"
-					data-href="https://www.facebook.com/Shop-Laptop-112282953999210"
-					data-tabs="timeline" data-width="250" data-height="100"
-					data-small-header="false" data-adapt-container-width="true"
-					data-hide-cover="false" data-show-facepile="true">
-					<blockquote
-						cite="https://www.facebook.com/Shop-Laptop-112282953999210"
-						class="fb-xfbml-parse-ignore">
-						<a href="https://www.facebook.com/Shop-Laptop-112282953999210">Shop
-							Laptop</a>
-					</blockquote>
-				</div>
-			</ul>
-		</li>
+
 	</ul>
 </div>
 <!-- /footer -->

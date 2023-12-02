@@ -12,5 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author ASUS
  */
 public interface passwordTokenRepo extends JpaRepository<PasswordResetToken,Integer>{
+   PasswordResetToken findByToken(String token);
     
 }

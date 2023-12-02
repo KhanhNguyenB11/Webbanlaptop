@@ -83,21 +83,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="comment">
-					<div class="title">Nhận xét khách hàng</div>
-					<div class="content">
-						<div id="fb-root"></div>
-						<script async defer crossorigin="anonymous"
-							src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v8.0"
-							nonce="1L3hNQ0b"></script>
 
-						<div id="comment_fb">
-							<div class="fb-comments"
-								data-href="http://localhost:8888/detail-product/${product.seo }"
-								data-numposts="5" data-width="1000"></div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<!-- /main -->

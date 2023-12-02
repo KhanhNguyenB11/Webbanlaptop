@@ -194,7 +194,7 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img style="width: 180px;"
-                                                         src="${base}/file/upload/${product.productImages[0].path}">
+                                                         src="${base}/upload/${product.productImages[0].path}">
 
                                                 </c:otherwise>
                                             </c:choose> <span>${product.title }</span></a><br> <br> <span>&nbsp;&nbsp;&nbsp;${product.priceVN }&nbsp;&nbsp;&nbsp;

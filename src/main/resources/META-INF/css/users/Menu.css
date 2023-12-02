@@ -12,6 +12,10 @@
 	font-weight: bold;
 	font-size: 15px;
 }
+.main > .left > .menu > .content{
+    height: 120px;
+    overflow-y: scroll;
+}
 .main > .left > .menu > .content > ul{
 	list-style: none;
 	margin: 0px;

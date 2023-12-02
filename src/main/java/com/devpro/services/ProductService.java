@@ -152,7 +152,8 @@ public class ProductService {
                     List<ProductImages> productImages = productInDb.getProductImages();
                     // xoá ảnh cũ đi
                     for (ProductImages _images : productImages) {
-                        new File("D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload/" + _images.getPath()).delete();
+//                        new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload" + _images.getPath()).delete();
+                        new File("D:\\datingapp_index" + _images.getPath()).delete();
                     }
                     product.clearProductImages();
                 } else { // ảnh phải giữ nguyên
@@ -163,8 +164,7 @@ public class ProductService {
             if (!isEmptyUploadFile(images)) { // nếu admin upload ảnh
                 for (MultipartFile image : images) {
                     // Lưu file vào host.
-                    image.transferTo(new File(
-                            "D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload/" + image.getOriginalFilename()));
+                    image.transferTo(new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + image.getOriginalFilename()));
                     ProductImages productImages = new ProductImages();
                     productImages.setTitle(image.getOriginalFilename());
                     productImages.setPath(image.getOriginalFilename());

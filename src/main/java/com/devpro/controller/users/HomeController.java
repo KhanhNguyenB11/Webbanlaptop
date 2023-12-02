@@ -30,10 +30,7 @@ public class HomeController extends BaseController {
 
     @Autowired
     ProductService productService;
-    @Autowired
-    UserService userService;
-    @Autowired
-    private JavaMailSender mailSender;
+    
 
 //	@Autowired  //lấy bean từ container's spring.
 //	private CategoryRepo categoryRepo;
@@ -78,47 +75,6 @@ public class HomeController extends BaseController {
         model.addAttribute("numberOfPage", numberOfPage);
         model.addAttribute("products", productService.search(productSearch));
         return "users/UserHome";
-    }
-
-    @RequestMapping(value = {"/resetpwd"}, method = RequestMethod.GET)
-    public String resetpwd(final ModelMap model, @Param("keyword") String keyword, final HttpServletRequest request,
-            final HttpServletResponse response) throws Exception {
-        return "users/resetpwd";
-
-    }
-
-    @PostMapping("/resetpwd")
-    public GenericResponse resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
-        User user = userService.findUserByEmail(userEmail);
-        if (user == null) {
-            return null;
-        }
-        String token = UUID.randomUUID().toString();
-        userService.createPasswordResetTokenForUser(user, token);
-        mailSender.send(constructResetTokenEmail(getAppUrl(request),
-                request.getLocale(), token, user));
-        return new GenericResponse("message.resetPasswordEmail", null);
-    }
-
-    private String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-    }
-
-    private SimpleMailMessage constructResetTokenEmail(
-            String contextPath, Locale locale, String token, User user) {
-        String url = contextPath + "/user/changePassword?token=" + token;
-        String message = "message.resetPassword";
-        return constructEmail("Reset Password", message + " \r\n" + url, user);
-    }
-
-    private SimpleMailMessage constructEmail(String subject, String body,
-            User user) {
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject(subject);
-        email.setText(body);
-        email.setTo(user.getEmail());
-        email.setFrom("dantedmc1134@gmail.com");
-        return email;
     }
 
 }

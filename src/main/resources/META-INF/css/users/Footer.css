@@ -5,6 +5,9 @@
 	height: 200px;
 	margin-top: 20px;
 	background: #8e0e0e;
+	display :flex;
+	align-items: center;
+	justify-content: center;
 }
 .footer > ul{
 	list-style: none;
