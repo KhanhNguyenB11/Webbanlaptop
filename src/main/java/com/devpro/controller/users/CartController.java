@@ -93,7 +93,7 @@ public class CartController extends BaseController {
 			saleOrderProducts.setQuantity(item.getQuantity());
 			saleOrder.addSaleOrderProducts(saleOrderProducts);
 			for (int i = 1; i <= item.getQuantity(); i++) {
-				sum = sum.add(saleOrderProducts.getProduct().getPrice());
+				sum = sum.add(item.getUnitPrice());
 			}
 			Locale locale = new Locale("vi", "VN");
 			NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
@@ -162,9 +162,12 @@ public class CartController extends BaseController {
 			}
 		}
 		if (!isExists) {
-
 			Product product = productRepo.getOne(data.getProductId());
 			data.setProductName(product.getTitle());
+                        if(product.getDiscount() > 0){
+                            BigDecimal priceAfterDiscount = productService.calPriceAfterDiscount(product.getPrice(),product.getDiscount());
+                            product.setPrice(priceAfterDiscount);
+                        }
 			data.setUnitPrice(product.getPrice());
 			cart.getCartItems().add(data);
 		}

@@ -20,6 +20,9 @@ import com.devpro.entities.Product;
 import com.devpro.entities.ProductImages;
 import com.devpro.repositories.ProductRepo;
 import com.devpro.repositories.SaleOrderRepo;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Service
 public class ProductService {
@@ -51,27 +54,6 @@ public class ProductService {
             jpql += " and p.status= " + productSearch.getStatusProduct();
 
         }
-//		if (productSearch.getTypePrice() != null && !productSearch.getTypePrice().isEmpty()) {
-//			int price = Integer.parseInt(productSearch.getTypePrice());
-//			if (price == 1) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 0 + " and price <= " + 5000000;
-//			}
-//			if (price == 2) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 5000000 + " and price <= " + 10000000;
-//
-//			}
-//			if (price == 3) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 10000000 + " and price <= " + 15000000;
-//
-//			}
-//			if (price == 4) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 15000000 + " and price <= " + 20000000;
-//
-//			}
-//			if (price == 5) {
-//				jpql +=" and p.status= " + productSearch.getStatusProduct() + " and price >= " + 20000000;
-//			}
-//		}
         if (productSearch.getMinprice() != null && !productSearch.getMinprice().isEmpty()) {
             jpql += " and p.status= " + productSearch.getStatusProduct() + " and price >= " + productSearch.getMinprice();
         }
@@ -126,6 +108,13 @@ public class ProductService {
             return product.get();
         }
         throw new RuntimeException("Không tìm thấy sản phẩm");
+    }
+
+    public BigDecimal calPriceAfterDiscount(BigDecimal price, int discount) {
+        BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100)));
+         BigDecimal priceAfterDiscount = price.subtract(discountAmount);
+       return priceAfterDiscount;
+
     }
 
     private boolean isEmptyUploadFile(MultipartFile[] images) {

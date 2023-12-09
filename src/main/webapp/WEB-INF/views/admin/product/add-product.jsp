@@ -63,6 +63,26 @@
 							<br>
 							<form:input type="text" path="price" />
 							<br>
+							<label>CPU</label>
+                            <br>
+                            <form:input type="text" path="CPU" />
+                            <br>
+                            <label>RAM</label>
+                            <br>
+                            <form:input type="text" path="Ram" />
+                            <br>
+                            <label>Display</label>
+                            <br>
+                            <form:input type="text" path="Display" />
+                            <br>
+                            <label>Storage</label>
+                            <br>
+                            <form:input type="text" path="Storage" />
+                            <br>
+                            <label>VGA</label>
+                            <br>
+                            <form:input type="text" path="Vga"/>
+                            <br>
 							<label>Mô tả sản phẩm(tối 3000 chữ)</label>
 							<br>
 							<form:textarea id="txtshortDescription1" path="shortDes" />
@@ -86,6 +106,10 @@
 							<input type="file" name="images" multiple="multiple"
 								style="border: 0px solid #dcdbdb;">
 							<br>
+							<label>Discount (%)</label>
+                            <br>
+                            <form:input type="number" path="discount"/>
+                            <br>
 							<label>Status</label>
 							<form:checkbox path="status" style="margin:0px; width:15px; height:15px; margin-left:20px;"/>
 							<br><br><br>

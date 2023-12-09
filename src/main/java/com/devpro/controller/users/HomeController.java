@@ -73,7 +73,14 @@ public class HomeController extends BaseController {
         productSearch.parseRequest(request);
         model.addAttribute("numberOP", numberOP);
         model.addAttribute("numberOfPage", numberOfPage);
-        model.addAttribute("products", productService.search(productSearch));
+        List<Product> list = productService.search(productSearch);
+        list.forEach(p ->{
+            if(p.getDiscount() > 0){
+                p.setPrice(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));
+            }
+        
+        });
+        model.addAttribute("products", list);
         return "users/UserHome";
     }
 

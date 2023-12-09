@@ -44,6 +44,7 @@ body{
 .main > .main-top > .left > .slide-img a img:hover{
 	width: 500px;
 	height: 500px;
+	transition: all 300ms;
 	margin-left: -15px;
 }
 .main > .main-top > .left > .choose-img{
