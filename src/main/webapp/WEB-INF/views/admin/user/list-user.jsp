@@ -129,19 +129,14 @@
         <script type="text/javascript"
         src="${base}/js/admin/delete-user.js"></script>
         <script type="text/javascript">
-                                                                                                                    $(document).ready(function () {
-                                                                                                                        $(".table").DataTable({
-                                                                                                                            "ordering": true,
-                                                                                                                            "searching": true,
-                                                                                                                            "paging": true,
-                                                                                                                            "columnDefs": [{
-                                                                                                                                    "targets": 0,
-                                                                                                                                    "searchable": false,
-                                                                                                                                    "visible": true
-                                                                                                                                }],
-                                                                                                                            "order": [[2, "desc"]]
-                                                                                                                        });
-                                                                                                                    });
+                                                                    $(document).ready(function () {
+                                                                        $(".table").DataTable({
+                                                                            "ordering": true,
+                                                                            "searching": true,
+                                                                            "paging": true,
+                                                                            "order": [[1, "asc"]]
+                                                                        });
+                                                                    });
         </script>
 
     </body>

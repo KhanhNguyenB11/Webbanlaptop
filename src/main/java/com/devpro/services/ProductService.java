@@ -23,10 +23,14 @@ import com.devpro.repositories.SaleOrderRepo;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ProductService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
     @Autowired
     ProductRepo productRepo;
     @PersistenceContext
@@ -112,8 +116,8 @@ public class ProductService {
 
     public BigDecimal calPriceAfterDiscount(BigDecimal price, int discount) {
         BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100)));
-         BigDecimal priceAfterDiscount = price.subtract(discountAmount);
-       return priceAfterDiscount;
+        BigDecimal priceAfterDiscount = price.subtract(discountAmount);
+        return priceAfterDiscount;
 
     }
 
@@ -129,39 +133,48 @@ public class ProductService {
 
     @Transactional(rollbackOn = Exception.class)
     public void saveProduct(MultipartFile[] images, Product product) throws Exception {
+
         try {
             product.setSeo(Utilities.createSeoLink(product.getTitle()));
 
             if (product.getId() != null) { // chỉnh sửa
                 // lấy dữ liệu cũ của sản phẩm
                 Product productInDb = productRepo.findById(product.getId()).get();
-
-                if (!isEmptyUploadFile(images)) { // nếu admin sửa ảnh sản phẩm
-                    // lấy danh sách ảnh của sản phẩm cũ
-                    List<ProductImages> productImages = productInDb.getProductImages();
-                    // xoá ảnh cũ đi
-                    for (ProductImages _images : productImages) {
-//                        new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload" + _images.getPath()).delete();
-                        new File("D:\\datingapp_index" + _images.getPath()).delete();
+                if (productInDb != null) {
+                    if (!isEmptyUploadFile(images)) { // nếu admin sửa ảnh sản phẩm
+                        // lấy danh sách ảnh của sản phẩm cũ
+                        List<ProductImages> productImages = productInDb.getProductImages();
+                        // xoá ảnh cũ đi
+                        for (ProductImages _images : productImages) {
+                            new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + _images.getPath()).delete();
+                        }
+                        product.clearProductImages();
+                    } else { // ảnh phải giữ nguyên
+                        product.setProductImages(productInDb.getProductImages());
                     }
-                    product.clearProductImages();
-                } else { // ảnh phải giữ nguyên
-                    product.setProductImages(productInDb.getProductImages());
                 }
-
             }
+
             if (!isEmptyUploadFile(images)) { // nếu admin upload ảnh
+                List<ProductImages> newProductImages = new ArrayList<>();
+
                 for (MultipartFile image : images) {
                     // Lưu file vào host.
                     image.transferTo(new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + image.getOriginalFilename()));
+
                     ProductImages productImages = new ProductImages();
                     productImages.setTitle(image.getOriginalFilename());
                     productImages.setPath(image.getOriginalFilename());
+                    productImages.setProduct(product);
 
                     // cho quan hệ 1 - n
-                    product.addProductImages(productImages);
+                    newProductImages.add(productImages);
                 }
+               
+                product.setProductImages(newProductImages);
+                System.out.println("imgzzz: " + product.getProductImages().size());
             }
+
             productRepo.save(product);
         } catch (Exception e) {
             throw e;

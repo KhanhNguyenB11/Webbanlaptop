@@ -35,14 +35,26 @@
                                     src="${base}/upload/${product.productImages[0].path}"
                                     id="place-img"></a>
                         </div>
+                        <div class="choose-img">
+                            <img src="${base}/file/upload/${product.productImages[0].path}"
+                                 id="img1"> <img
+                                 src="${base}/file/upload/${product.productImages[1].path}"
+                                 id="img2"> <img
+                                 src="${base}/file/upload/${product.productImages[2].path}"
+                                 id="img3"> <img
+                                 src="${base}/file/upload/${product.productImages[3].path}"
+                                 id="img4"> <img
+                                 src="${base}/file/upload/${product.productImages[4].path}"
+                                 id="img5">
+                        </div>
 
                     </div>
                     <div class="right">
                         <div class="top">
-                            
+
                             <c:if test = "${not empty priceAfterDiscount}">
                                 <br>
-                                <span class="span1"> ${priceAfterDiscount} </span><br>
+                                <span class="span1"> Giá khuyến mãi: ${priceAfterDiscount} </span><br>
                                 <br> <span class="span2">Giá gốc:</span>
                                 <del>${product.priceVN}</del>
                             </c:if>
