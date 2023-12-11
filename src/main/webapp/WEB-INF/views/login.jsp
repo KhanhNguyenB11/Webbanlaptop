@@ -54,8 +54,7 @@
 						<div class="right" style="margin-left:450px;margin-top:-150px;">
 							<button class="btn btn-lg btn-primary btn-block" type="submit">ĐĂNG
 								NHẬP</button>
-								<span>Hoặc đăng nhập bằng</span>
-							<button class="btn btn-lg btn-primary btn-block" type="submit">Facebook</button>
+
 						</div>
 					</form>
 				</div>

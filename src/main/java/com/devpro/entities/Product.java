@@ -48,6 +48,62 @@ public class Product extends BaseEntity {
 	@Column(name = "seo", nullable = false)
 	private String seo;
 
+	private int discount;
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	private String CPU;
+	private String Ram;
+	private String Storage;
+	private String Vga;
+	private String Display;
+
+	public String getCPU() {
+		return CPU;
+	}
+
+	public void setCPU(String CPU) {
+		this.CPU = CPU;
+	}
+
+	public String getRam() {
+		return Ram;
+	}
+
+	public void setRam(String ram) {
+		Ram = ram;
+	}
+
+	public String getStorage() {
+		return Storage;
+	}
+
+	public void setStorage(String storage) {
+		Storage = storage;
+	}
+
+	public String getVga() {
+		return Vga;
+	}
+
+	public void setVga(String vga) {
+		Vga = vga;
+	}
+
+	public String getDisplay() {
+		return Display;
+	}
+
+	public void setDisplay(String display) {
+		Display = display;
+	}
+
 	/**
 	 * Thêm ảnh vào sản phẩm.
 	 * 

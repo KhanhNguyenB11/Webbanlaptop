@@ -105,9 +105,7 @@ var Shop = {
 
                 $("#btnCheckout").html("(" + jsonResult.data + ")");
 
-                $('html, body').animate({
-                    scrollTop: $("#btnCheckout").offset().top - 100
-                }, 1000);
+            
 
             }
         });

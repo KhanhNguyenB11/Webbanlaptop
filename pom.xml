@@ -71,12 +71,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -123,6 +118,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<fork>true</fork>
+					<!--suppress UnresolvedMavenProperty -->
 					<mainClass>${start-class}</mainClass>
 				</configuration>
 				<executions>
@@ -137,8 +133,8 @@
 
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+<!--					<source>1.6</source>-->
+<!--					<target>1.6</target>-->
 					<encoding>UTF-8</encoding>
 					<archive>
 						<manifest>

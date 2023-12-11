@@ -20,6 +20,7 @@ import com.devpro.entities.User;
 import com.devpro.repositories.RoleRepo;
 import com.devpro.repositories.UserRepo;
 import com.devpro.repositories.passwordTokenRepo;
+import java.util.Calendar;
 
 @Service
 public class UserService {
@@ -68,6 +69,28 @@ public class UserService {
         PasswordResetToken myToken = new PasswordResetToken(token, user);
         pwdTokenRepo.save(myToken);
     }
+
+    public String validatePasswordResetToken(String token) {
+        final PasswordResetToken passToken = pwdTokenRepo.findByToken(token);
+
+        return !isTokenFound(passToken) ? "invalidToken"
+                : isTokenExpired(passToken) ? "expired"
+                : null;
+    }
+
+    private boolean isTokenFound(PasswordResetToken passToken) {
+        return passToken != null;
+    }
+
+    private boolean isTokenExpired(PasswordResetToken passToken) {
+        final Calendar cal = Calendar.getInstance();
+        return passToken.getExpiryDate().before(cal.getTime());
+    }
+    public User findUserByToken(String token){
+        PasswordResetToken passToken = pwdTokenRepo.findByToken(token);
+        return passToken.getUser();
+    }
+
     public User loadUserByUsername(String userName) {
         try {
             String jpql = "From User u Where u.username='" + userName + "'";

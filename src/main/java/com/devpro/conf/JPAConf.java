@@ -33,7 +33,7 @@ public class JPAConf {
         //Configures the used database dialect. This allows Hibernate to create SQL that is optimized for the used database.
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         //Specifies the action that is invoked to the database when the Hibernate SessionFactory is created or closed.
-        jpaProperties.put("hibernate.hbm2ddl.auto", "validate");
+        jpaProperties.put("hibernate.hbm2ddl.auto", "update");
         //Configures the naming strategy that is used when Hibernate creates new database objects and schema elements
         jpaProperties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
         //If the value of this property is true, Hibernate writes all SQL statements to the console.

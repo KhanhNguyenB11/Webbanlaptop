@@ -20,6 +20,9 @@ import com.devpro.entities.Product;
 import com.devpro.entities.ProductImages;
 import com.devpro.repositories.ProductRepo;
 import com.devpro.repositories.SaleOrderRepo;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Service
 public class ProductService {
@@ -51,27 +54,6 @@ public class ProductService {
             jpql += " and p.status= " + productSearch.getStatusProduct();
 
         }
-//		if (productSearch.getTypePrice() != null && !productSearch.getTypePrice().isEmpty()) {
-//			int price = Integer.parseInt(productSearch.getTypePrice());
-//			if (price == 1) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 0 + " and price <= " + 5000000;
-//			}
-//			if (price == 2) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 5000000 + " and price <= " + 10000000;
-//
-//			}
-//			if (price == 3) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 10000000 + " and price <= " + 15000000;
-//
-//			}
-//			if (price == 4) {
-//				jpql += " and p.status= " + productSearch.getStatusProduct() +" and price >= " + 15000000 + " and price <= " + 20000000;
-//
-//			}
-//			if (price == 5) {
-//				jpql +=" and p.status= " + productSearch.getStatusProduct() + " and price >= " + 20000000;
-//			}
-//		}
         if (productSearch.getMinprice() != null && !productSearch.getMinprice().isEmpty()) {
             jpql += " and p.status= " + productSearch.getStatusProduct() + " and price >= " + productSearch.getMinprice();
         }
@@ -128,6 +110,13 @@ public class ProductService {
         throw new RuntimeException("Không tìm thấy sản phẩm");
     }
 
+    public BigDecimal calPriceAfterDiscount(BigDecimal price, int discount) {
+        BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100)));
+         BigDecimal priceAfterDiscount = price.subtract(discountAmount);
+       return priceAfterDiscount;
+
+    }
+
     private boolean isEmptyUploadFile(MultipartFile[] images) {
         if (images == null || images.length <= 0) {
             return true;
@@ -152,7 +141,8 @@ public class ProductService {
                     List<ProductImages> productImages = productInDb.getProductImages();
                     // xoá ảnh cũ đi
                     for (ProductImages _images : productImages) {
-                        new File("D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload/" + _images.getPath()).delete();
+//                        new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload" + _images.getPath()).delete();
+                        new File("D:\\datingapp_index" + _images.getPath()).delete();
                     }
                     product.clearProductImages();
                 } else { // ảnh phải giữ nguyên
@@ -163,8 +153,7 @@ public class ProductService {
             if (!isEmptyUploadFile(images)) { // nếu admin upload ảnh
                 for (MultipartFile image : images) {
                     // Lưu file vào host.
-                    image.transferTo(new File(
-                            "D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload/" + image.getOriginalFilename()));
+                    image.transferTo(new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + image.getOriginalFilename()));
                     ProductImages productImages = new ProductImages();
                     productImages.setTitle(image.getOriginalFilename());
                     productImages.setPath(image.getOriginalFilename());

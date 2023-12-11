@@ -63,7 +63,7 @@
 								</sec:authorize>
 								<sec:authorize access="!isAuthenticated()">
 									<input type="text" name="customerName"
-										placeholder="Vui lòng nhập trên của bạn" style="height: 40px; border: 1px solid red; border-radius: 5px; width: 250px;">
+										placeholder="Vui lòng nhập tên của bạn" style="height: 40px; border: 1px solid red; border-radius: 5px; width: 250px;">
 								</sec:authorize>
 							</div>
 							<div class="form-group">

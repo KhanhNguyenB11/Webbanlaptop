@@ -504,6 +504,8 @@
 
 .main>.bottom>.content>ul li:hover button {
 	display: block;
+        transition: all 3.5s linear;
+        cursor: pointer;
 }
 
 .main>.bottom>.content>ul>div>li>span {
@@ -543,14 +545,3 @@
 	color: black;
 }
 
-.main>.mess {
-	width: 50px;
-	position: fixed;
-	right: 50px;
-	bottom: 10px;
-}
-
-.main>.mess img {
-	width: 50px;
-	border-radius: 40px;
-}

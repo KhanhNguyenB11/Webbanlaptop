@@ -32,6 +32,6 @@ public class MVCConf implements WebMvcConfigurer {
 		
 		
 		// dành cho thư mục upload.
-		registry.addResourceHandler("/file/upload/**").addResourceLocations("file:D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload/");
+		registry.addResourceHandler("/upload/**").addResourceLocations("classpath:/META-INF/upload/");
 		}
 	}
