@@ -21,6 +21,7 @@ import com.devpro.entities.Product;
 import com.devpro.repositories.CategoryRepo;
 import com.devpro.repositories.ProductRepo;
 import com.devpro.services.ProductService;
+import java.util.List;
 
 @Controller
 public class AdminProductController {
@@ -44,6 +45,7 @@ public class AdminProductController {
             throws Exception {
         model.addAttribute("categories", categoryRepo.findAll());
         model.addAttribute("product", new Product());
+        model.addAttribute("action","add");
         return "admin/product/add-product";
     }
 
@@ -58,14 +60,16 @@ public class AdminProductController {
         return "admin/product/add-product";
     }
 
+
     @RequestMapping(value = {"/admin/save-product"}, method = RequestMethod.POST)
     public String saveProduct(@RequestParam("images") MultipartFile[] images,
-            @ModelAttribute("product") Product product, final ModelMap model, final HttpServletRequest request,
+            @ModelAttribute("product") Product product,@RequestParam("deletedImages") String deletedImg[], final ModelMap model, final HttpServletRequest request,
             final HttpServletResponse response) throws Exception {
-        
-      productService.saveProduct(images, product);
+
+      productService.saveProduct(images, product,deletedImg);
+
        return "redirect:/admin/list-product";
-        
+
 
     }
 

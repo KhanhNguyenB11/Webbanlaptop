@@ -43,13 +43,20 @@
                     <div class="content-right">
                         <div class="create-product">
                             <div class="title">
+                            <c:if test="${not empty action}">
                                 <span>Tạo Sản Phẩm Mới</span>
-                            </div>
-                            <div class="content-create-product">
+                            </c:if>
+                            <c:if test="${ empty action}">
+                                <span>Sửa Thông Tin Sản Phẩm</span>
+                            </c:if>
+
+                        </div>
+                        <div class="content-create-product">
                             <form:form method="post" action="/admin/save-product"
-                                       modelAttribute="product" enctype="multipart/form-data">
+                                       modelAttribute="product" enctype="multipart/form-data" onsubmit="return validateForm()">
 
                                 <form:hidden path="id" />
+                                <input type="hidden" name="deletedImages" id="deletedImagesInput"/>
 
                                 <label>Tên sản phẩm</label>
                                 <br>
@@ -98,24 +105,27 @@
                                     </form:select>
                                 </div>
                                 <br>
-                                <label>Ảnh của sản phẩm</label>
-                                <div style="display:flex; justify-content: center; align-items: center; padding-bottom: 1rem; flex-wrap: wrap; position: relative" >
-                                    <br>
-                                    <c:forEach items="${product.productImages}" var="image" varStatus="loop">
-                                        <div id="oldImage">
-                                            <button type="button" style="position:absolute;" id="removeImageBtn" onclick="handleDeleteImg('${image.path}')">X</button>
-                                            <img src="/upload/${image.path}" height="150px" width="150px" style="margin: 15px" id="${image.path}_img">
-                                        </div>
+                                <c:if test="${ empty action}">
+                                    <label>Ảnh của sản phẩm</label>
+                                    <div style="display:flex; justify-content: center; align-items: center; padding-bottom: 1rem; flex-wrap: wrap; position: relative" >
+                                        <br>
 
-                                    </c:forEach>
-                                </div>
+                                        <c:forEach items="${product.productImages}" var="image" varStatus="loop">
+                                            <div id="${image.path}">
+                                                <button type="button" style="position:absolute;" id="removeImageBtn" onclick="handleDeleteImg('${image.path}')">X</button>
+                                                <img src="/upload/${image.path}" height="150px" width="150px" style="margin: 15px" id="${image.path}_img">
+                                            </div>
+                                        </c:forEach>
+
+                                    </div>
+                                </c:if>
                                 <label>Chọn ảnh mới cho sản phẩm:</label>
                                 <div style="display:flex; justify-content: center; align-items: center; padding-bottom: 1rem; flex-wrap: wrap;flex-direction: column"  >
                                     <input type="file" name="images" multiple="multiple" id="imageInput"
                                            style="border: 0px solid #dcdbdb;">
 
                                     <div id="imagePreviewContainer" style="display:flex; justify-content: center; align-items: center; padding-bottom: 1rem; flex-wrap: wrap; position: relative">                                      
-                                      
+
                                     </div>
                                     <button type="button" onclick="handleDeleteNewImage()" >Delete Image</button>
                                 </div>
@@ -150,17 +160,17 @@
                 }
 
             });
-           
+
             function handleDeleteNewImage() {
                 let previewContainer = document.getElementById('imagePreviewContainer');
                 const input = document.getElementById("imageInput");
-                 //remove selected img from DOM
-             
-                for(let i=0; i< input.files.length;i++){
+                //remove selected img from DOM
+
+                for (let i = 0; i < input.files.length; i++) {
                     previewContainer.remove(input.files[i].name);
-                    
+
                 }
-                                           
+
                 input.value = "";
 
             }
@@ -194,11 +204,42 @@
             }
             let deletedImages = [];
             function handleDeleteImg(imageId) {
-                const div = document.getElementById("oldImage");
-                deletedImages.push(imageId);
-                div.remove(imageId)
-                event.stopPropagation();
+
+                if (!deletedImages.includes(imageId))
+                    deletedImages.push(imageId);
                 console.log(deletedImages);
+                document.getElementById(imageId).remove();
+                event.stopPropagation();
+
+            }
+            function validateForm() {
+                //Update the deleted img to the form
+                //document.getElementById('deletedImagesInput').value = JSON.stringify(deletedImages);
+                document.getElementById('deletedImagesInput').value = deletedImages;
+                // Validate Tên sản phẩm
+                var title = document.getElementById('title').value.trim();
+                if (title === '') {
+                    alert('Vui lòng nhập Tên sản phẩm');
+                    return false;
+                }
+
+                // Validate Giá sản phẩm
+                var price = document.getElementById('price').value.trim();
+                if (price === '' || isNaN(price) || parseFloat(price) <= 0) {
+                    alert('Vui lòng nhập giá hợp lệ');
+                    return false;
+                }
+
+                // Validate Discount (%)
+                var discount = document.getElementById('discount').value.trim();
+                if (discount !== '' && (isNaN(discount) || parseFloat(discount) < 0 || parseFloat(discount) > 100)) {
+                    alert('Vui lòng nhập giảm giá hợp lệ (từ 0 đến 100)');
+                    return false;
+                }
+
+
+
+                return true; // Form is valid, proceed with submission
             }
 
 

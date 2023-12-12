@@ -6,7 +6,7 @@
 <!-- JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:url value="${pageContext.request.contextPath}" var="base" />
 
@@ -118,58 +118,19 @@
                             <div id="prev-2" onclick="prev2();">
                                 <img src="${base}/images/users/prev.jpg">
                             </div>
-                            <div class="slide-flash">
+                            <div class="slide-flash" style="padding-top: 20px">
                                 <ul id="slide-show-2">
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-1.jpg"><br> <span>SSD
-                                                2.5 Inch SanDisk X400 - 128GB - Hàng Chính Hãng</span>
-                                        </a><br> <br> <span>425.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>550.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-2.jpg"><br> <span>RAM
-                                                Laptop Kingmax DDR4 bus 2666MHz - 4GB - Hàng chính hãng</span>
-                                        </a><br> <span>369.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>435.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-3.jpg"><br> <span>Laptop
-                                                HP 15s-fq1106TU 193Q2PA - intel core i3</span>
-                                        </a><br> <br> <span>9.490.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>9.890.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-4.jpg"><br> <span>Laptop
-                                                Asus Pro P1440FA-FQ0934 - Intel Core</span>
-                                        </a><br> <br> <span>8.490.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>8.990.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-5.jpg"><br> <span>Laptop
-                                                MSI Modern 14 A10M 1028VN-Intel</span>
-                                        </a><br> <br> <span>16.790.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>16.990.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-6.jpg"><br> <span>Pin
-                                                tiểu AA/ AAA Tự Sạc - Đầu Micro USB</span>
-                                        </a><br> <br> <span>29.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>45.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-7.jpg"><br> <span>SSD
-                                                2.5 Inch SanDisk X400 - 128GB - Hàng Chính Hãng</span>
-                                        </a><br> <br> <span>425.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>550.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-8.jpg"><br> <span>SSD
-                                                2.5 Inch SanDisk X400 - 128GB - Hàng Chính Hãng</span>
-                                        </a><br> <br> <span>425.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>550.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-9.jpg"><br> <span>SSD
-                                                2.5 Inch SanDisk X400 - 128GB - Hàng Chính Hãng</span>
-                                        </a><br> <br> <span>425.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>550.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
-                                    <li><a href="#"> <img id="slide-fl"
-                                                          src="${base}/images/users/sanpham-10.jpg"><br> <span>SSD
-                                                2.5 Inch SanDisk X400 - 128GB - Hàng Chính Hãng</span>
-                                        </a><br> <br> <span>425.000đ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>550.000đ</del><br>
-                                        <p>Giao hàng từ Hà Nội, ship toàn quốc</p></li>
+                                     <c:forEach var="flproduct" items="${flashSale}">
+                                     <li><a href="${base}/detail-product/${flproduct.seo }"> <img id="slide-fl"
+                                       src="/upload/${flproduct.productImages[0].path}" height="200px"><br> <span>${flproduct.title}</span>
+                                                    </a><br> <br>
+                                                     <span><fmt:formatNumber  value="${flproduct.price - (flproduct.price * flproduct.discount / 100)}" pattern="#,##0" /></span>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <del><fmt:formatNumber value="${flproduct.price}" pattern="#,##0" /></del>
+                                                    <br>
+                                         <p>Giao hàng từ TP.HCM, ship toàn quốc</p></li>
+                                     </c:forEach>
+
                                 </ul>
                             </div>
                         </div>
@@ -193,11 +154,11 @@
                                                          src="${base}/images/users/700x400.png" alt="">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img style="width: 180px;"
+                                                    <img style="width: 180px;height: 180px"
                                                          src="${base}/upload/${product.productImages[0].path}">
 
                                                 </c:otherwise>
-                                            </c:choose> <span>${product.title }</span></a><br> <br> <span style="padding-top: 0.3rem;padding-bottom: 0.3rem">&nbsp;&nbsp;&nbsp;${product.priceVN }&nbsp;&nbsp;&nbsp;
+                                            </c:choose> <span>${product.title }</span></a><br> <br> <span style="padding-top: 0.3rem;padding-bottom: 0.3rem">&nbsp;&nbsp;&nbsp;${product.priceAfterDiscount }&nbsp;&nbsp;&nbsp;
                                         </span>
                                         <button type="button" class="add-to-cart-btn"
                                                 onclick="Shop.addItemToCart(${product.id}, 1)" style="">Thêm

@@ -165,7 +165,7 @@ public class CartController extends BaseController {
 			Product product = productRepo.getOne(data.getProductId());
 			data.setProductName(product.getTitle());
                         if(product.getDiscount() > 0){
-                            BigDecimal priceAfterDiscount = productService.calPriceAfterDiscount(product.getPrice(),product.getDiscount());
+                            BigDecimal priceAfterDiscount = productService.calPriceAfterDiscountNoFormat(product.getPrice(),product.getDiscount());
                             product.setPrice(priceAfterDiscount);
                         }
 			data.setUnitPrice(product.getPrice());

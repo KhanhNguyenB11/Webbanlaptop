@@ -73,13 +73,19 @@ public class HomeController extends BaseController {
         productSearch.parseRequest(request);
         model.addAttribute("numberOP", numberOP);
         model.addAttribute("numberOfPage", numberOfPage);
+        List<Product> flashSale = productService.findFlashSale();
+        model.addAttribute("flashSale",flashSale);
         List<Product> list = productService.search(productSearch);
         list.forEach(p ->{
             if(p.getDiscount() > 0){
-                p.setPrice(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));
+                p.setPriceAfterDiscount(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));
+            }
+            else{
+                p.setPriceAfterDiscount(p.getPriceVN());
             }
         
         });
+
         model.addAttribute("products", list);
         return "users/UserHome";
     }
