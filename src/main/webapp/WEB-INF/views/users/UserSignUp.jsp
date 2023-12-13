@@ -25,6 +25,21 @@
 	rel="stylesheet">
 <script src="${base}/css/users/bootstrap/js/jquery-3.5.1.min.js"></script>
 <script src="${base}/css/users/bootstrap/js/bootstrap.min.js"></script>
+<style>
+.my-content{
+                 width: 100%;
+                 height: 170px;
+                 border: 2px solid #f7bb70;
+                 border-radius: 5px;
+                 margin-top: 10px;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 gap: 10px;
+                 flex-direction: column;
+                 font-size: 25px;
+             }
+</style>
 </head>
 <body>
 	<!-- wrapper -->
@@ -35,9 +50,13 @@
 		<!-- main -->
 		<div class="main">
 			<!-- top -->
+			 <c:if test="${ empty confirmEmail}">
 			<div class="top">
 				<div class="left">
 					<span>Tạo tài khoản</span>
+					<c:if test="${not empty message}">
+					    <p style="color: red">${message}</p>
+					</c:if>
 				</div>
 				<div class="right">
 					<span>Bạn là thành viên? <a href="${base}/login">Đăng
@@ -117,6 +136,27 @@
 					</div>
 				</form:form>
 			</div>
+			</c:if>
+			<c:if test="${not empty confirmEmail}">
+			    <div class="main">
+                                    <div class="sign-in">
+                                        <c:if test="${not empty message}">
+                                                <div class="alert alert-info" role="alert">
+                                                    ${message}
+                                                </div>
+                                            </c:if>
+                                        <div class="title">
+                                            <span style="font-size: 25px; margin-left: 50px;">Xin vui lòng xác thực email</span>
+                                        </div>
+                                        <div class="my-content">
+                                            <div>Một email vừa được gửi đến ${email}. Vui lòng kiểm tra Email.</div>
+                                            <p>Nếu không tìm thấy Email, bấm vào <a href="#">Đây</a> để gửi lại.</p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+			</c:if>
 			<!-- /mid -->
 
 		</div>

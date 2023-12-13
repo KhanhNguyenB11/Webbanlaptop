@@ -44,6 +44,9 @@
 							<div class="alert alert-danger" role="alert">Login attempt
 								was not successful, try again.</div>
 						</c:if>
+						<c:if test="${not empty message}">
+                        	<div class="alert alert-danger" role="alert">${message}</div>
+                        	</c:if>
 						<div class="left">
 							<label for="email">Tên đăng nhập*</label><br> <input type="text" name="username"
 								placeholder="Vui lòng nhập tên đăng nhập của bạn"><br> <label

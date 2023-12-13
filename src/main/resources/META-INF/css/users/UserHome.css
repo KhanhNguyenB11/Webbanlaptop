@@ -241,6 +241,7 @@
 	width: 738px;
 	height: 310px;
 	border: 2px solid #f6a74a;
+	position: relative;
 	overflow: hidden;
 }
 
@@ -307,8 +308,6 @@
 .main>.middle>.top>.content>#next-2 {
 	right: -40px;
 	top: 90px;
-	margin-top: 530px;
-	margin-right: 250px;
 	display: none;
 	cursor: pointer;
 }
@@ -316,8 +315,6 @@
 .main>.middle>.top>.content>#prev-2 {
 	left: -5px;
 	top: 90px;
-	margin-top: 530px;
-	margin-left: 520px;
 	display: none;
 	cursor: pointer;
 }

@@ -119,7 +119,7 @@
                                 <img src="${base}/images/users/prev.jpg">
                             </div>
                             <div class="slide-flash" style="padding-top: 20px">
-                                <ul id="slide-show-2">
+                                <ul id="slide-show-2" style="max-width: 738px">
                                      <c:forEach var="flproduct" items="${flashSale}">
                                      <li><a href="${base}/detail-product/${flproduct.seo }"> <img id="slide-fl"
                                        src="/upload/${flproduct.productImages[0].path}" height="200px"><br> <span>${flproduct.title}</span>

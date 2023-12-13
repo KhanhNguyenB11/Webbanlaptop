@@ -50,6 +50,23 @@ public class User extends BaseEntity implements UserDetails{
 	@Column(name = "avatar", length = 100, nullable = false)
 	private String avatar;
 
+	public String getConfirmationToken() {
+		return confirmationToken;
+	}
+
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Column(name="confirmationToken", length = 64)
+	private String confirmationToken;
+
+	private boolean enabled;
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "tbl_users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<Role>();
@@ -155,7 +172,7 @@ public class User extends BaseEntity implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enabled;
 	}
 
 }
