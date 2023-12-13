@@ -1,4 +1,6 @@
 <%@page import="com.devpro.entities.User"%>
+<%@ page import="org.springframework.security.oauth2.core.user.OAuth2User" %>
+<%@ page import="org.springframework.security.oauth2.core.oidc.user.OidcUser" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,11 +31,21 @@
                     <%
                             String username = "";
                     String id = " ";
+
                     Object principal = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()
                                     .getPrincipal();
                     if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
                             username = ((User) principal).getName();
                             id = String.valueOf(((User)principal).getId());
+
+                    }
+                    else{
+                            OidcUser oidcUser = (OidcUser) principal;
+
+                                // Extract information from oidcUser
+                                String email = oidcUser.getEmail();
+                                String name = oidcUser.getName();
+                                username = email;
 
                     }
 					

@@ -69,7 +69,7 @@
 
 			<div class="mid" style="background: #d6dff3; border-radius: 5px;">
 				<form:form method="post" action="/save-guestUser"
-							modelAttribute="user" enctype="multipart/form-data">
+							modelAttribute="user" enctype="multipart/form-data" onsubmit="return validateForm()">
 					<div class="top" style="margin-top: 20px;">
 						<div class="form-row">
 								<div class="form-group col-md-6">
@@ -166,5 +166,57 @@
 		<!-- /footer -->
 	</div>
 	<!-- /wrapper -->
+	<script>
+	function validateForm() {
+
+
+                // Validate Tên đăng nhập
+                const usernameInput = document.querySelector('[name="username"]');
+                if (!usernameInput.value.trim()) {
+                    alert('Tên đăng nhập không được để trống.');
+                    return false;
+                }
+
+                // Validate Họ và tên đệm
+                const firstNameInput = document.querySelector('[name="firstName"]');
+                if (!firstNameInput.value.trim()) {
+                    alert('Họ và tên đệm không được để trống.');
+                    return false;
+
+                }
+
+                // Validate Mật khẩu
+                const passwordInput = document.querySelector('[name="password"]');
+                if (!passwordInput.value.trim()) {
+
+                    alert('Mật khẩu không được để trống.');
+                    return false;
+                }
+
+                // Validate Tên
+                const nameInput = document.querySelector('[name="name"]');
+                if (!nameInput.value.trim()) {
+                    alert('Tên không được để trống.');
+                    return false;
+                }
+
+                // Validate Email
+                const emailInput = document.querySelector('[name="email"]');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value.trim())) {
+                    alert('Email không hợp lệ.');
+                    return false;
+                }
+
+                // Validate Số điện thoại
+                const phoneInput = document.querySelector('[name="phone"]');
+                if (!phoneInput.value.trim()) {
+                    alert('Số điện thoại không được để trống.');
+                    return false;
+                }
+
+                return true;
+            }
+	</script>
 </body>
 </html>

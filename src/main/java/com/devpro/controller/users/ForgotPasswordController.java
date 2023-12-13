@@ -56,7 +56,7 @@ public class ForgotPasswordController {
 
     @PostMapping("/resetpwd")
     public String resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail, final ModelMap model) {
-        User user = userService.findUserByEmail(userEmail);
+        User user = userService.findUserByEmail(userEmail.toLowerCase());
         if (user == null) {
             model.addAttribute("message","Email không đúng, xin vui lòng thử lại sau.");
             return "/login";
@@ -66,7 +66,7 @@ public class ForgotPasswordController {
         mailSender.send(constructResetTokenEmail(getAppUrl(request),
                 request.getLocale(), token, user));
         model.addAttribute("email", userEmail);
-        model.addAttribute("message","Một Email vừa được gửi đến" + user.getEmail() + ". Xin vui lòng kiểm tra.");
+        model.addAttribute("message","Một Email vừa được gửi đến " + user.getEmail() + ". Xin vui lòng kiểm tra.");
         return "users/resetpwd";
     }
 

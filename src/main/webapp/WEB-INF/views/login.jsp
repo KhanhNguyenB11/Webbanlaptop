@@ -56,8 +56,8 @@
 						</div>
 						<div class="right" style="margin-left:450px;margin-top:-150px;">
 							<button class="btn btn-lg btn-primary btn-block" type="submit">ĐĂNG
-								NHẬP</button>
-
+								NHẬP</button> Hoặc
+								<a href="/oauth2/authorization/google">Đăng nhập bằng Google</a>
 						</div>
 					</form>
 				</div>

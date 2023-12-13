@@ -36,6 +36,9 @@ public class UserService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private CustomOidcUserService  oidcUserService;
+
     public User findUserById(final int id) {
         Optional<User> user = userRepo.findById(id);
         if (user.isPresent()) {
@@ -65,6 +68,10 @@ public class UserService {
     public User findUserByEmail(String email) {
         User user = userRepo.findByEmail(email);
         return user;
+    }
+    public void saveOauth2User(){
+
+
     }
     public User findUserByUsername(String username){
         return userRepo.findByUsername(username);
