@@ -128,7 +128,7 @@ public class SaleOrderService {
 	}
 
 	@Transactional(rollbackOn = Exception.class)
-	public void saveOrderProduct(String customerAddress, String customerName, String customerPhone,
+	public void saveOrderProduct(int userid, String customerAddress, String customerName, String customerPhone,
 			String customerEmail, HttpSession httpSession) throws Exception {
 		SaleOrder saleOrder = new SaleOrder();
 		saleOrder.setCode("ORDER-" + System.currentTimeMillis());
@@ -138,6 +138,10 @@ public class SaleOrderService {
 		saleOrder.setCustomerPhone(customerPhone);
 		saleOrder.setCustomerEmail(customerEmail);
 		saleOrder.setStatus(true);
+                if(userid==0){
+                    
+                }else
+                    saleOrder.setUserId(userid);
 
 		Cart cart = (Cart) httpSession.getAttribute("GIO_HANG");
 		List<CartItem> cartItems = cart.getCartItems();

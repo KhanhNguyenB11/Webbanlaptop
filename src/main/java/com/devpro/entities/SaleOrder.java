@@ -38,6 +38,17 @@ public class SaleOrder extends BaseEntity {
 	@Column(name = "seo")
 	private String seo;
 
+        @Column(name = "user_id")
+	private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+        
 	@Transient
 	private String totalVN;
 	
