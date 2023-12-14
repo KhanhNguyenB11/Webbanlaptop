@@ -26,8 +26,8 @@ public interface SaleOrderRepo extends JpaRepository<SaleOrder, Integer>  {
     List<Integer> findTop5Total();
     
     
-    @Query(nativeQuery = true, value = "SELECT created_by FROM tbl_saleorder where not created_by = 'NULL' GROUP BY created_by ORDER BY COUNT(created_by) DESC LIMIT 5;")
+    @Query(nativeQuery = true, value = "SELECT staff_id FROM tbl_saleorder GROUP BY staff_id ORDER BY COUNT(staff_id) DESC LIMIT 5;")
     List<Integer> findTop5CreatedID();
-    @Query(nativeQuery = true, value = "SELECT COUNT(created_by) FROM tbl_saleorder GROUP BY created_by ORDER BY COUNT(created_by) DESC LIMIT 5;")
+    @Query(nativeQuery = true, value = "SELECT COUNT(staff_id) FROM tbl_saleorder GROUP BY staff_id ORDER BY COUNT(staff_id) DESC LIMIT 5;")
     List<Integer> findTop5OrderCreatedCount();
 }
