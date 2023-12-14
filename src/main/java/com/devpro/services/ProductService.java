@@ -107,6 +107,22 @@ public class ProductService {
         }
         return null;
     }
+    public List<Product> findProductsMaxToMin() {
+        try {
+            return productRepo.findAllMaxToMinOfPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<Product> findProductsMinToMax() {
+        try {
+            return productRepo.findAllMinToMaxOfPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public List<Product> findFlashSale(){
         try {
             return productRepo.findTop12ProductsOrderByDiscountDesc();

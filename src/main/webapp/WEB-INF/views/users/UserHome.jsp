@@ -81,9 +81,12 @@
                             <div class="title">Tìm Kiếm Sản Phẩm</div>
                             <div class="content">
                                 <div style="margin-top:20px; margin-left:20px;">
-                                    <button onclick="Shop.highTolow('${base}/');" >Cao đến thấp</button>
-                                <button onclick="Shop.lowToHight('${base}/');" >Thấp đến cao</button>
-                            </div>
+                                    <form action="/sortChange" method="post" enctype="multipart/form-data">
+                                        <button name="check" value="1">Cao đến thấp</button>
+                                        <button name="check" value="2">Thấp đến cao</button>
+                                    </form>
+                                    
+                                </div>
                             <br> 
 <!--							<a href="${base }/?price=1" onclick="">Dưới 5.000.000đ</a> <br><br>
                                     <a href="${base }/?price=2" onclick="">5.000.000đ - 10.000.000đ</a><br><br>
@@ -119,7 +122,15 @@
                                 <img src="${base}/images/users/prev.jpg">
                             </div>
                             <div class="slide-flash" style="padding-top: 20px">
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                <ul id="slide-show-2">
+=======
                                 <ul id="slide-show-2" style="max-width: 738px">
+>>>>>>> 6f6ef0b75b0e176815964fc80e21be4fb703f423
+=======
+                                <ul id="slide-show-2" style="max-width: 738px">
+>>>>>>> 6f6ef0b75b0e176815964fc80e21be4fb703f423
                                      <c:forEach var="flproduct" items="${flashSale}">
                                      <li><a href="${base}/detail-product/${flproduct.seo }"> <img id="slide-fl"
                                        src="/upload/${flproduct.productImages[0].path}" height="200px"><br> <span>${flproduct.title}</span>
@@ -196,6 +207,7 @@
             <!-- /wrapper -->
 
             <!-- js -->
+            
             <script type="text/javascript" src="${base}/js/users/jquery-3.5.1.js"></script>
         <script type="text/javascript" src="${base}/js/users/script.js"></script>
         <script type="text/javascript" src="${base}/js/users/shop.js"></script>

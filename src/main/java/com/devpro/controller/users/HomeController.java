@@ -31,7 +31,17 @@ public class HomeController extends BaseController {
     @Autowired
     ProductService productService;
     
-
+    private int check = 0;
+    @PostMapping("/sortChange")
+    public String choose(final ModelMap model, @RequestParam("check") String value, final HttpServletRequest request,
+            final HttpServletResponse response) throws Exception {
+        if("1".equals(value)){
+            check = 1;
+        }else if ("2".equals(value)){
+            check =2;
+        }
+        return "redirect:/home";
+    }
 //	@Autowired  //lấy bean từ container's spring.
 //	private CategoryRepo categoryRepo;
     @RequestMapping(value = {"/home", "/index", "/"}, method = RequestMethod.GET)
@@ -75,7 +85,19 @@ public class HomeController extends BaseController {
         model.addAttribute("numberOfPage", numberOfPage);
         List<Product> flashSale = productService.findFlashSale();
         model.addAttribute("flashSale",flashSale);
-        List<Product> list = productService.search(productSearch);
+
+        List<Product> list;
+        switch (check) {
+            default:
+                list = productService.search(productSearch);
+                break;
+            case 1:
+                list = productService.findProductsMaxToMin();
+                break;
+            case 2:
+                list = productService.findProductsMinToMax();
+                break;
+        }
         list.forEach(p ->{
             if(p.getDiscount() > 0){
                 p.setPriceAfterDiscount(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));

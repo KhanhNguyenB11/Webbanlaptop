@@ -14,6 +14,11 @@ import com.devpro.entities.Product;
 public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT * FROM tbl_products ORDER BY discount DESC LIMIT 12", nativeQuery = true)
     List<Product> findTop12ProductsOrderByDiscountDesc();
+    @Query(value = "SELECT * FROM tbl_products ORDER BY price DESC", nativeQuery = true)
+    List<Product> findAllMaxToMinOfPrice();
+    @Query(value = "SELECT * FROM tbl_products ORDER BY price ASC", nativeQuery = true)
+    List<Product> findAllMinToMaxOfPrice();
+
 	
 	
 }
