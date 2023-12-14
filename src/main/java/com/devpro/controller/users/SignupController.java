@@ -30,7 +30,7 @@ public class SignupController {
 	public String confirmEmail(@RequestParam("token") String token) throws Exception{
 		User user = userService.findUserByEmailToken(token);
 		if(user != null){
-			user.setEnabled(true);
+			user.setStatus(true);
 			userService.saveUser(null,user);
 			return "users/VerifyEmail";
 		}

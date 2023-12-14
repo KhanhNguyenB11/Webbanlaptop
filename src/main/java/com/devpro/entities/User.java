@@ -58,16 +58,14 @@ public class User extends BaseEntity implements UserDetails{
 		this.confirmationToken = confirmationToken;
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+
 
 	@Column(name="confirmationToken", length = 64)
 	private String confirmationToken;
 
-	private boolean enabled;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "tbl_users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<Role>();
 	
@@ -172,7 +170,7 @@ public class User extends BaseEntity implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return this.enabled;
+		return this.getStatus();
 	}
 
 }

@@ -13,18 +13,13 @@ import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import com.devpro.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.devpro.common.Utilities;
-import com.devpro.entities.Cart;
-import com.devpro.entities.CartItem;
-import com.devpro.entities.Category;
-import com.devpro.entities.SaleOrder;
-import com.devpro.entities.SaleOrderProducts;
-import com.devpro.entities.User;
 import com.devpro.repositories.ProductRepo;
 import com.devpro.repositories.SaleOrderProductsRepo;
 import com.devpro.repositories.SaleOrderRepo;
@@ -41,6 +36,8 @@ public class SaleOrderService {
 	private JavaMailSender mailSender;
 	@Autowired
 	SaleOrderProductsRepo saleOrderProductsRepo;
+	@Autowired
+	ProductService productService;
 
 	public List<SaleOrderProducts> findOrderProductByOrderId(int id) {
 		SaleOrderProducts saleOrderProducts = saleOrderProductsRepo.findById(id).get();
@@ -62,6 +59,9 @@ public class SaleOrderService {
 //		Query query = entityManager.createQuery(jpql, Product.class);
 
 		return saleOrderRepo.findByCode(code);
+	}
+	public List<SaleOrder> findByEmail(String email){
+		return saleOrderRepo.findByCustomerEmail(email);
 	}
 	public List<SaleOrderProducts> findSaleOrderProductbyCode(String code) {
 
@@ -146,12 +146,18 @@ public class SaleOrderService {
 
 		for (CartItem item : cartItems) {
 			SaleOrderProducts saleOrderProducts = new SaleOrderProducts();
-			saleOrderProducts.setProduct(productRepo.getOne(item.getProductId()));
+			Product product = productRepo.getOne(item.getProductId());
+			saleOrderProducts.setPrice(product.getPrice());
+			saleOrderProducts.setDiscount(product.getDiscount());
+			saleOrderProducts.setProduct(product);
 			saleOrderProducts.setQuantity(item.getQuantity());
 			saleOrder.addSaleOrderProducts(saleOrderProducts);
 			saleOrderProducts.setStatus(true);
 			for (int i = 1; i <= item.getQuantity(); i++) {
-				sum = sum.add(saleOrderProducts.getProduct().getPrice());
+				BigDecimal price = saleOrderProducts.getProduct().getPrice();
+				int discount = saleOrderProducts.getProduct().getDiscount();
+				BigDecimal priceAfterDiscount = productService.calPriceAfterDiscountNoFormat(price,discount);
+				sum = sum.add(priceAfterDiscount);
 			}
 
 		}

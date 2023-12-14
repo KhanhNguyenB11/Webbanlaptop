@@ -1,11 +1,7 @@
 package com.devpro.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tbl_saleorder_products")
@@ -22,6 +18,47 @@ public class SaleOrderProducts extends BaseEntity {
 	@JoinColumn(name = "saleorder_id")
 	private SaleOrder saleOrder;
 
+
+	private int discount;
+
+	public int getDiscount() {
+		return discount;
+	}
+	@Transient
+	private BigDecimal priceAfterDiscount;
+
+	@Transient
+	private BigDecimal total;
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public BigDecimal getPriceAfterDiscount() {
+		return priceAfterDiscount;
+	}
+
+	public void setPriceAfterDiscount(BigDecimal priceAfterDiscount) {
+		this.priceAfterDiscount = priceAfterDiscount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	private BigDecimal price;
 	public SaleOrder getSaleOrder() {
 		return saleOrder;
 	}
@@ -45,6 +82,8 @@ public class SaleOrderProducts extends BaseEntity {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+
+
 
 
 }

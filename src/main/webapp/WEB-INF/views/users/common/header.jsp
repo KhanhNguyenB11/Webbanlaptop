@@ -40,12 +40,13 @@
 
                     }
                     else{
-                            OidcUser oidcUser = (OidcUser) principal;
 
+                                OidcUser oidcUser = (OidcUser) principal;
                                 // Extract information from oidcUser
                                 String email = oidcUser.getEmail();
                                 String name = oidcUser.getName();
                                 username = email;
+                                id= email;
 
                     }
 					
