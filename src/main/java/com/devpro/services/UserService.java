@@ -188,7 +188,7 @@ public class UserService {
             user.getRoles().add(findRoleById(2));
             user.setUpdatedDate(java.time.LocalDateTime.now());
             user.setCreatedDate(java.time.LocalDateTime.now());
-            user.setStatus(true);
+            user.setStatus(false);
             userRepo.save(user);
         } catch (Exception e) {
             throw e;

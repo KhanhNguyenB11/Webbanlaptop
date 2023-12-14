@@ -48,6 +48,10 @@ public class historyController extends BaseController{
 				saleOrderProducts.setPriceAfterDiscount(priceAfterDiscount);
 				saleOrderProducts.setTotal(priceAfterDiscount.multiply(BigDecimal.valueOf(saleOrderProducts.getQuantity())));
 			}
+			else{
+				saleOrderProducts.setPriceAfterDiscount(saleOrderProducts.getPrice());
+				saleOrderProducts.setTotal(saleOrderProducts.getPrice().multiply(BigDecimal.valueOf(saleOrderProducts.getQuantity())));
+			}
 
 		}
 		model.addAttribute("saleOrderProducts", list);
