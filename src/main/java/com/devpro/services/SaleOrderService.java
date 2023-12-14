@@ -40,16 +40,14 @@ public class SaleOrderService {
 	ProductService productService;
 
 	public List<SaleOrderProducts> findOrderProductByOrderId(int id) {
-		SaleOrderProducts saleOrderProducts = saleOrderProductsRepo.findById(id).get();
-		List<SaleOrderProducts> list = new ArrayList<>();
-		list.add(saleOrderProducts);
-		return list;
+		String sql = "select * from tbl_saleorder_products where saleorder_id = (select id from tbl_saleorder where id='" + id
+				+ "')";
+		Query query = entityManager.createNativeQuery(sql, SaleOrderProducts.class);
+		return query.getResultList();
 	}
 
 	public SaleOrder findSaleOrderById(int id) {
 
-//		String jpql = "Select p from Product p where p.seo = '" + seo + "'";
-//		Query query = entityManager.createQuery(jpql, Product.class);
 
 		return saleOrderRepo.findById(id);
 	}

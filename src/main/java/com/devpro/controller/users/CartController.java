@@ -58,7 +58,7 @@ public class CartController extends BaseController {
 		String customerAddress = null;
 		String customerPhone = null;
 		String customerEmail = null;
-
+		int id = 0;
 		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
@@ -66,7 +66,7 @@ public class CartController extends BaseController {
 				customerName = ((User) principal).getName();
 				customerAddress = ((User) principal).getAddress();
 				customerEmail = ((User) principal).getEmail();
-
+				id = ((User) principal).getId();
 				model.addAttribute("customerName", ((User) principal).getName());
 				model.addAttribute("customerAddress", ((User) principal).getAddress());
 				model.addAttribute("customerPhone", ((User) principal).getPhone());
@@ -80,6 +80,7 @@ public class CartController extends BaseController {
 					customerAddress = user.getAddress();
 					customerPhone = user.getPhone();
 					customerEmail = user.getEmail();
+					id = user.getId();
 					model.addAttribute("customerName", (user.getName()));
 					model.addAttribute("customerAddress", (user.getAddress()));
 					model.addAttribute("customerPhone", (user.getPhone()));
@@ -125,7 +126,7 @@ public class CartController extends BaseController {
 			model.addAttribute("quantityCart", cartItems.size());
 			model.addAttribute("cartItems", cartItems);
 			model.addAttribute("sumVN", sumVN);
-			saleOrderService.saveOrderProduct(customerAddress, customerName, customerPhone, customerEmail, httpSession);
+			saleOrderService.saveOrderProduct(id,customerAddress, customerName, customerPhone, customerEmail, httpSession);
 			return "users/finish";
 		}
 	}

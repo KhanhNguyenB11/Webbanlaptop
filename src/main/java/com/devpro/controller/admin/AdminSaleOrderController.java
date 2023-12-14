@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.devpro.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class AdminSaleOrderController {
 	@Autowired
 	SaleOrderService saleOrderService;
 	@Autowired
-	public ProductRepo productRepo;
+	public UserService userService;
 	@Autowired
 	public SaleOrderRepo saleOrderRepo;
 	@Autowired
@@ -54,18 +55,25 @@ public class AdminSaleOrderController {
 			final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		model.addAttribute("saleOrder", saleOrderService.findSaleOrderById(id));
 		model.addAttribute("saleOrderProduct", saleOrderService.findOrderProductByOrderId(id));
+
+
 		return "admin/sale-order/view-order";
 	}
 
 	@RequestMapping(value = { "/admin/list-order/delete-saleOrder-with-ajax/{id}" }, method = RequestMethod.POST)
 	public ResponseEntity<AjaxResponse> subscribe(@PathVariable("id") int id, final ModelMap model,
 			final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
 		SaleOrder saleOrders = saleOrderService.findSaleOrderById(id);
-
+		int staff_Id = 0;
+		Object principal = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+		if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
+			staff_Id = ((User)principal).getId();
+		}
+		User staff = userService.findUserById(staff_Id);
+		saleOrders.setStaff(staff);
 		saleOrders.setStatus(false);
 		saleOrderRepo.save(saleOrders);
-
 		return ResponseEntity.ok(new AjaxResponse(200, "SUCCESS"));
 	}
 }

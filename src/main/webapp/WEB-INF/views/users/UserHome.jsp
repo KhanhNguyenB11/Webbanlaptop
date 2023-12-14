@@ -122,15 +122,8 @@
                                 <img src="${base}/images/users/prev.jpg">
                             </div>
                             <div class="slide-flash" style="padding-top: 20px">
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                <ul id="slide-show-2">
-=======
+
                                 <ul id="slide-show-2" style="max-width: 738px">
->>>>>>> 6f6ef0b75b0e176815964fc80e21be4fb703f423
-=======
-                                <ul id="slide-show-2" style="max-width: 738px">
->>>>>>> 6f6ef0b75b0e176815964fc80e21be4fb703f423
                                      <c:forEach var="flproduct" items="${flashSale}">
                                      <li><a href="${base}/detail-product/${flproduct.seo }"> <img id="slide-fl"
                                        src="/upload/${flproduct.productImages[0].path}" height="200px"><br> <span>${flproduct.title}</span>
