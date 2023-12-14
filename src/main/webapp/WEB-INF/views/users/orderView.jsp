@@ -60,10 +60,10 @@
 					<thead>
 						<tr>
 							<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sản phẩm</th>
-							<th>Giá</th>
-							<th>Giảm Giá</th>
+							<th>Giá Gốc</th>
+							<th>Giá Giảm</th>
 							<th>Số lượng</th>
-							<th>Tạm tính</th>
+							<th>Thành tiền</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -73,9 +73,9 @@
 									src="${base}/file/upload/${saleOrderProduct.product.productImages[0].path}"><span><a
 										href="${base}/detail-product/${saleOrderProduct.product.seo }">${saleOrderProduct.product.title }</a></span></td>
 								<td>${saleOrderProduct.product.priceVN }</td>
-								<td>0 đ</td>
-								<td>${saleOrderProduct.quantity }</td>
-								<td>${saleOrderProduct.product.priceVN }</td>
+								<td><fmt:formatNumber value="${saleOrderProduct.priceAfterDiscount}" pattern="#,##0" /></td>
+								<td>${saleOrderProduct.quantity}</td>
+								<td><fmt:formatNumber value="${saleOrderProduct.total}" pattern="#,##0" /></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -86,20 +86,7 @@
 						<tr>
 							<td><br></td>
 						</tr>
-						<tr>
-							<td><p>Tạm tính</p></td>
-							<td><p>${saleOrders.totalVN }</p></td>
-						</tr>
 
-						<tr>
-							<td><p>Giảm giá</p></td>
-							<td><p>0 ₫</p></td>
-						</tr>
-						<tr>
-							<td><p>Phí vận chuyển</p></td>
-							<td><p>
-									0 ₫</span></td>
-						</tr>
 						<tr>
 							<td><p>Tổng cộng</p></td>
 							<td><p class="sum">${saleOrders.totalVN }</p></td>

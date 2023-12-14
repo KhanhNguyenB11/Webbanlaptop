@@ -6,13 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_saleorder")
@@ -55,6 +49,17 @@ public class SaleOrder extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "saleOrder"/* tên property category trong class product */
 			, fetch = FetchType.LAZY)
 	private List<SaleOrderProducts> saleOrderProducts = new ArrayList<SaleOrderProducts>();
+	@ManyToOne
+	@JoinColumn(name = "staff_id", referencedColumnName = "id")
+	private User staff;
+
+	public User getStaff() {
+		return staff;
+	}
+
+	public void setStaff(User staff) {
+		this.staff = staff;
+	}
 
 	public void addSaleOrderProducts(SaleOrderProducts _saleOrderProducts) {
 		_saleOrderProducts.setSaleOrder(this);

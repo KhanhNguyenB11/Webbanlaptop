@@ -56,8 +56,13 @@
 												.getPrincipal();
 										if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
 											username = ((User) principal).getFirstName() + " " + ((User) principal).getName();
+											out.write(username);
 										}
-										out.write(username);
+										else{
+										    String customerName = (String) request.getAttribute("customerName");
+										    if(customerName != null)
+                                                out.print(customerName);
+										}
 										%>
 									</div>
 								</sec:authorize>
@@ -76,8 +81,15 @@
 												.getPrincipal();
 										if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
 											username1 = ((User) principal).getPhone();
+											out.write(username1);
 										}
-										out.write(username1);
+										else{
+										 String customerPhone = (String) request.getAttribute("customerPhone");
+                                         if(customerPhone != null)
+                                            out.print(customerPhone);
+										}
+
+
 										%>
 									</div>
 								</sec:authorize>
@@ -96,8 +108,14 @@
 												.getPrincipal();
 										if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
 											username1 = ((User) principal).getEmail();
+											out.write(username1);
 										}
-										out.write(username1);
+
+										else{
+										    String customerEmail = (String) request.getAttribute("customerEmail");
+										    if(customerEmail != null)
+                                                out.print(customerEmail);
+										}
 										%>
 									</div>
 								</sec:authorize>
@@ -116,8 +134,14 @@
 												.getPrincipal();
 										if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
 											username2 = ((User) principal).getAddress();
+											out.write(username2);
 										}
-										out.write(username2);
+										else{
+										    String customerAddress = (String) request.getAttribute("customerAddress");
+										    if(customerAddress != null)
+                                                out.print(customerAddress);
+										}
+
 										%>
 									</div>
 								</sec:authorize>

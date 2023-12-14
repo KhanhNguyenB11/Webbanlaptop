@@ -15,6 +15,8 @@ public interface SaleOrderRepo extends JpaRepository<SaleOrder, Integer>  {
 
     @Query(nativeQuery = true, value = "SELECT * FROM tbl_saleorder WHERE user_id = ?1")
     List<SaleOrder> findByUserId(int userID);
+
+    List<SaleOrder> findByCustomerEmail(String customer_email);
     
     @Query(nativeQuery = true, value = "SELECT COUNT(user_id) FROM tbl_saleorder GROUP BY user_id ORDER BY COUNT(user_id) DESC LIMIT 5;")
     List<Integer> findTop5OrderCount();

@@ -23,6 +23,9 @@ public class SecureConf extends WebSecurityConfigurerAdapter {
 	
 	@Autowired private UserDetailsService userDetailsService;
 	@Autowired private UserRepo userRepo;
+
+	@Autowired
+	CustomOidcUserService customOidcUserService;
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests() // thực hiện xác thực request ngưười dùng gửi lên.
@@ -55,7 +58,9 @@ public class SecureConf extends WebSecurityConfigurerAdapter {
             .failureUrl("/login?login_error=true") // nhập username, password sai thì redirect về trang nào.
             .permitAll()
 				.and()
-				.oauth2Login()
+				.oauth2Login().userInfoEndpoint()
+				.oidcUserService(customOidcUserService)
+				.and()
 				.loginPage("/login") // Redirect to your custom login page
 				.defaultSuccessUrl("/home") // Redirect after successful OAuth login
 				.failureUrl("/login?login_error=true"); // Redirect after failed OAuth login;
@@ -73,9 +78,6 @@ public class SecureConf extends WebSecurityConfigurerAdapter {
 	@Autowired public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
-	@Bean
-	public OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
-		return new CustomOidcUserService(userRepo);
-	}
+
 	
 }

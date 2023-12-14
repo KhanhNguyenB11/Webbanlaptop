@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<%@ page import="org.springframework.security.oauth2.core.oidc.user.OidcUser" %>
 <!-- JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -61,8 +61,16 @@
                                 if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
                                         id = String.valueOf(((User)principal).getId());
 
-                                }%>
-                                <a class="nav-link" style="padding: 10px; color: white; border: none; border-radius: 5px; cursor: pointer;font-size: 12px;font-weight: bold; font-size: large;background-color: #b72222;text-decoration: none" href="${base}/user/<%=id%>"> UserInfo</a>
+                                }
+                                else{
+                                   OidcUser oidcUser = (OidcUser) principal;
+                                   String email = oidcUser.getEmail();
+                                   id= email;
+
+                                    }
+
+                                %>
+                                <a class="nav-link" style="padding: 10px; color: white; border: none; border-radius: 5px; cursor: pointer;font-size: 12px;font-weight: bold; font-size: large;background-color: #b72222;text-decoration: none" href="${base}/user/<%=id%>">Thông tin tài khoản</a>
 		</div>
 		<!-- /main -->
 		<!-- footer -->

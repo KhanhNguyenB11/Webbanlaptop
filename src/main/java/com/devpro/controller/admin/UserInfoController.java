@@ -13,6 +13,7 @@ import com.devpro.controller.users.BaseController;
 import com.devpro.entities.User;
 import com.devpro.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +30,24 @@ public class UserInfoController extends BaseController {
     @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
     public String userInfo(@PathVariable("id") String id, final ModelMap model,final HttpServletRequest request,
                            final HttpServletResponse response) throws Exception {
-        int userId = Integer.parseInt(id);
-        // Find user by ID
-        User user = userService.findUserById(userId);
-        System.out.println(user.getRoles());
-       if(authUser(userId)){
-           model.addAttribute("user", user);
-           return "users/UserInfo";
-       }
+        if(id.contains("@")){
+            User user = userService.findUserByEmail(id);
+            if(authOauth2User(id)){
+                model.addAttribute("user", user);
+                return "users/UserInfo";
+            }
+
+        }
+        else {
+            int userId = Integer.parseInt(id);
+            // Find user by ID
+            User user = userService.findUserById(userId);
+            if(authUser(userId)){
+                model.addAttribute("user", user);
+                return "users/UserInfo";
+            }
+        }
+
         return "redirect:/home";
     }
     @RequestMapping(value = { "/saveUser" }, method = RequestMethod.POST)
@@ -56,5 +67,16 @@ public class UserInfoController extends BaseController {
             }
         }
         return true;
+    }
+    public boolean authOauth2User(String email){
+        Object principal = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        if(principal instanceof OidcUser){
+            OidcUser oidcUser = (OidcUser) principal;
+            if(oidcUser.getEmail().equals(email)){
+                return true;
+            }
+            return  false;
+        }else return false;
     }
 }
