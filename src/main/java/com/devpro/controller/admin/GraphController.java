@@ -57,7 +57,7 @@ public class GraphController {
         
 	@GetMapping("/admin/BarGraph")
 	public String barGraph(Model model) {
-                
+                model.addAttribute("selected_year", year);
                 model.addAttribute("start", startOfWeek);
                 model.addAttribute("end", endOfWeek);
                 model.addAttribute("startOfWeek",start_week);
@@ -92,17 +92,19 @@ public class GraphController {
 		int sum = 0;
 		int quantity = 0;   
 		for (SaleOrder saleOrder1 : saleOrders) {
-			
+			sum = sum + saleOrder1.getTotal().intValue();
+                        for (int i = 0; i < saleOrder1.getSaleOrderProducts().size(); i++) {
+				quantity =quantity +saleOrder1.getSaleOrderProducts().get(i).getQuantity();
+			}
+                        
 			LocalDateTime date =  saleOrder1.getCreatedDate();
                         boolean isWithinWeek = !date.toLocalDate().isBefore(startOfWeek) && !date.toLocalDate().isAfter(endOfWeek);
 			Date out = Date.from(date.atZone(ZoneId.systemDefault()).toInstant());  // chuyển từ localdatetime về date
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy",Locale.ENGLISH);
 			String dateFormat = formatter.format(out);                             // chuyển từ date về string
-			sum = sum + saleOrder1.getTotal().intValue();
-			for (int i = 0; i < saleOrder1.getSaleOrderProducts().size(); i++) {
-				quantity =quantity +saleOrder1.getSaleOrderProducts().get(i).getQuantity();
-			}
+			
+			
                         
 			String month =  (String) dateFormat.subSequence(4, 7);
                         String weekday = (String) dateFormat.subSequence(0, 3);
