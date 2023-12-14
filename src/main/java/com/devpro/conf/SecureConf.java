@@ -1,5 +1,7 @@
 package com.devpro.conf;
 
+import com.devpro.repositories.UserRepo;
+import com.devpro.services.CustomOidcUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,13 +12,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 @Configuration
 @EnableWebSecurity
 public class SecureConf extends WebSecurityConfigurerAdapter {
 	
 	@Autowired private UserDetailsService userDetailsService;
-	
+	@Autowired private UserRepo userRepo;
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests() // thực hiện xác thực request ngưười dùng gửi lên.
@@ -47,7 +53,15 @@ public class SecureConf extends WebSecurityConfigurerAdapter {
             .loginProcessingUrl("/perform_login") // link action for form post.
             .defaultSuccessUrl("/home", true) // when user success authenticated then go to this url.
             .failureUrl("/login?login_error=true") // nhập username, password sai thì redirect về trang nào.
-            .permitAll();
+            .permitAll()
+				.and()
+				.oauth2Login()
+				.loginPage("/login") // Redirect to your custom login page
+				.defaultSuccessUrl("/home") // Redirect after successful OAuth login
+				.failureUrl("/login?login_error=true"); // Redirect after failed OAuth login;
+
+
+
 	}
 	
 	@Bean
@@ -58,6 +72,10 @@ public class SecureConf extends WebSecurityConfigurerAdapter {
 	
 	@Autowired public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	}
+	@Bean
+	public OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+		return new CustomOidcUserService(userRepo);
 	}
 	
 }

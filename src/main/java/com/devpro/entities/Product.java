@@ -36,7 +36,19 @@ public class Product extends BaseEntity {
 	
 	@Transient
 	private String priceVN;
-	
+	@Transient
+	private String priceAfterDiscount;
+
+	@Transient
+	public String getPriceAfterDiscount() {
+		return priceAfterDiscount;
+	}
+
+	@Transient
+	public void setPriceAfterDiscount(String priceAfterDiscount) {
+		this.priceAfterDiscount = priceAfterDiscount;
+	}
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id") // tên field khoá ngoại
 	private Category category;
@@ -182,7 +194,8 @@ public class Product extends BaseEntity {
 		NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 		return fmt.format(price);
 	}
-	
+
+
 	@Transient
 	public void setPriceVN(String priceVN) {
 		this.priceVN = priceVN;

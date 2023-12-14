@@ -44,6 +44,9 @@
 							<div class="alert alert-danger" role="alert">Login attempt
 								was not successful, try again.</div>
 						</c:if>
+						<c:if test="${not empty message}">
+                        	<div class="alert alert-danger" role="alert">${message}</div>
+                        	</c:if>
 						<div class="left">
 							<label for="email">Tên đăng nhập*</label><br> <input type="text" name="username"
 								placeholder="Vui lòng nhập tên đăng nhập của bạn"><br> <label
@@ -53,8 +56,8 @@
 						</div>
 						<div class="right" style="margin-left:450px;margin-top:-150px;">
 							<button class="btn btn-lg btn-primary btn-block" type="submit">ĐĂNG
-								NHẬP</button>
-
+								NHẬP</button> Hoặc
+								<a href="/oauth2/authorization/google">Đăng nhập bằng Google</a>
 						</div>
 					</form>
 				</div>

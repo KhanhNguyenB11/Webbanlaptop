@@ -1,8 +1,7 @@
 package com.devpro.services;
 
 import java.io.File;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +9,8 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,6 @@ import com.devpro.entities.User;
 import com.devpro.repositories.RoleRepo;
 import com.devpro.repositories.UserRepo;
 import com.devpro.repositories.passwordTokenRepo;
-import java.util.Calendar;
 
 @Service
 public class UserService {
@@ -33,6 +33,11 @@ public class UserService {
     public RoleRepo roleRepo;
     @Autowired
     public passwordTokenRepo pwdTokenRepo;
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private CustomOidcUserService  oidcUserService;
 
     public User findUserById(final int id) {
         Optional<User> user = userRepo.findById(id);
@@ -64,6 +69,41 @@ public class UserService {
         User user = userRepo.findByEmail(email);
         return user;
     }
+    public void saveOauth2User(){
+
+
+    }
+    public User findUserByUsername(String username){
+        return userRepo.findByUsername(username);
+    }
+    public void sendConfirmationEmail(User user){
+        String contextPath = "http://localhost:8080";
+        String token = UUID.randomUUID().toString();
+        createEmailConfirmationToken(user,token);
+        mailSender.send(constructConfirmationEmail(contextPath,token,user));
+
+    }
+
+    private SimpleMailMessage constructConfirmationEmail(
+            String contextPath, String token, User user) {
+        String url = contextPath + "/verify?token=" + token;
+        String message = "Click here to confirm your email";
+        return constructEmail("Confirm email", message + " \r\n" + url, user);
+    }
+
+    private SimpleMailMessage constructEmail(String subject, String body,
+                                             User user) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setSubject(subject);
+        email.setText(body);
+        email.setTo(user.getEmail());
+        email.setFrom("KhanhLaptop");
+        return email;
+    }
+    public void createEmailConfirmationToken(User user, String token){
+        user.setConfirmationToken(token);
+        userRepo.save(user);
+    }
 
     public void createPasswordResetTokenForUser(User user, String token) {
         PasswordResetToken myToken = new PasswordResetToken(token, user);
@@ -89,6 +129,9 @@ public class UserService {
     public User findUserByToken(String token){
         PasswordResetToken passToken = pwdTokenRepo.findByToken(token);
         return passToken.getUser();
+    }
+    public User findUserByEmailToken(String token){
+        return userRepo.findByConfirmationToken(token);
     }
 
     public User loadUserByUsername(String userName) {

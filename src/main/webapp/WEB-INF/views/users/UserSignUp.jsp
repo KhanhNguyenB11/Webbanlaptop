@@ -25,6 +25,21 @@
 	rel="stylesheet">
 <script src="${base}/css/users/bootstrap/js/jquery-3.5.1.min.js"></script>
 <script src="${base}/css/users/bootstrap/js/bootstrap.min.js"></script>
+<style>
+.my-content{
+                 width: 100%;
+                 height: 170px;
+                 border: 2px solid #f7bb70;
+                 border-radius: 5px;
+                 margin-top: 10px;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 gap: 10px;
+                 flex-direction: column;
+                 font-size: 25px;
+             }
+</style>
 </head>
 <body>
 	<!-- wrapper -->
@@ -35,9 +50,13 @@
 		<!-- main -->
 		<div class="main">
 			<!-- top -->
+			 <c:if test="${ empty confirmEmail}">
 			<div class="top">
 				<div class="left">
 					<span>Tạo tài khoản</span>
+					<c:if test="${not empty message}">
+					    <p style="color: red">${message}</p>
+					</c:if>
 				</div>
 				<div class="right">
 					<span>Bạn là thành viên? <a href="${base}/login">Đăng
@@ -50,7 +69,7 @@
 
 			<div class="mid" style="background: #d6dff3; border-radius: 5px;">
 				<form:form method="post" action="/save-guestUser"
-							modelAttribute="user" enctype="multipart/form-data">
+							modelAttribute="user" enctype="multipart/form-data" onsubmit="return validateForm()">
 					<div class="top" style="margin-top: 20px;">
 						<div class="form-row">
 								<div class="form-group col-md-6">
@@ -117,6 +136,27 @@
 					</div>
 				</form:form>
 			</div>
+			</c:if>
+			<c:if test="${not empty confirmEmail}">
+			    <div class="main">
+                                    <div class="sign-in">
+                                        <c:if test="${not empty message}">
+                                                <div class="alert alert-info" role="alert">
+                                                    ${message}
+                                                </div>
+                                            </c:if>
+                                        <div class="title">
+                                            <span style="font-size: 25px; margin-left: 50px;">Xin vui lòng xác thực email</span>
+                                        </div>
+                                        <div class="my-content">
+                                            <div>Một email vừa được gửi đến ${email}. Vui lòng kiểm tra Email.</div>
+                                            <p>Nếu không tìm thấy Email, bấm vào <a href="#">Đây</a> để gửi lại.</p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+			</c:if>
 			<!-- /mid -->
 
 		</div>
@@ -126,5 +166,57 @@
 		<!-- /footer -->
 	</div>
 	<!-- /wrapper -->
+	<script>
+	function validateForm() {
+
+
+                // Validate Tên đăng nhập
+                const usernameInput = document.querySelector('[name="username"]');
+                if (!usernameInput.value.trim()) {
+                    alert('Tên đăng nhập không được để trống.');
+                    return false;
+                }
+
+                // Validate Họ và tên đệm
+                const firstNameInput = document.querySelector('[name="firstName"]');
+                if (!firstNameInput.value.trim()) {
+                    alert('Họ và tên đệm không được để trống.');
+                    return false;
+
+                }
+
+                // Validate Mật khẩu
+                const passwordInput = document.querySelector('[name="password"]');
+                if (!passwordInput.value.trim()) {
+
+                    alert('Mật khẩu không được để trống.');
+                    return false;
+                }
+
+                // Validate Tên
+                const nameInput = document.querySelector('[name="name"]');
+                if (!nameInput.value.trim()) {
+                    alert('Tên không được để trống.');
+                    return false;
+                }
+
+                // Validate Email
+                const emailInput = document.querySelector('[name="email"]');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value.trim())) {
+                    alert('Email không hợp lệ.');
+                    return false;
+                }
+
+                // Validate Số điện thoại
+                const phoneInput = document.querySelector('[name="phone"]');
+                if (!phoneInput.value.trim()) {
+                    alert('Số điện thoại không được để trống.');
+                    return false;
+                }
+
+                return true;
+            }
+	</script>
 </body>
 </html>

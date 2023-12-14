@@ -30,19 +30,25 @@
                 </div>
                 <div class="main-top">
                     <div class="left">
-                        <div class="slide-img">
+                        <div class="slide-img" id="detail-slide-img">
                             <a href="#"><img
                                     src="${base}/upload/${product.productImages[0].path}"
-                                    id="place-img"></a>
+                                    id="place-img" width="400px" height="400px"></a>
+                        </div>
+                        <div class="choose-img">
+                            <c:forEach var = "image" items="${product.productImages}">
+                                <img src="/upload/${image.path}" alt="product_image" onclick="changeSlideImg('${image.path}')" style="cursor: pointer"/>
+                               
+                            </c:forEach>
                         </div>
 
                     </div>
                     <div class="right">
                         <div class="top">
-                            
+
                             <c:if test = "${not empty priceAfterDiscount}">
                                 <br>
-                                <span class="span1"> ${priceAfterDiscount} </span><br>
+                                <span class="span1">${priceAfterDiscount} </span><br>
                                 <br> <span class="span2">Giá gốc:</span>
                                 <del>${product.priceVN}</del>
                             </c:if>

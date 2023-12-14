@@ -37,7 +37,7 @@ public class JPAConf {
         //Configures the naming strategy that is used when Hibernate creates new database objects and schema elements
         jpaProperties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
         //If the value of this property is true, Hibernate writes all SQL statements to the console.
-        jpaProperties.put("hibernate.show_sql", "true");
+        jpaProperties.put("hibernate.show_sql", "false");
         //If the value of this property is true, Hibernate will format the SQL that is written to the console.
         jpaProperties.put("hibernate.format_sql", "true");
         

@@ -22,11 +22,17 @@ import com.devpro.repositories.ProductRepo;
 import com.devpro.repositories.SaleOrderRepo;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ProductService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
     @Autowired
     ProductRepo productRepo;
     @PersistenceContext
@@ -101,6 +107,34 @@ public class ProductService {
         }
         return null;
     }
+<<<<<<< HEAD
+    public List<Product> findProductsMaxToMin() {
+        try {
+            return productRepo.findAllMaxToMinOfPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<Product> findProductsMinToMax() {
+        try {
+            return productRepo.findAllMinToMaxOfPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+=======
+>>>>>>> 6f6ef0b75b0e176815964fc80e21be4fb703f423
+    public List<Product> findFlashSale(){
+        try {
+            return productRepo.findTop12ProductsOrderByDiscountDesc();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public Product findProductById(int id) {
         Optional<Product> product = productRepo.findById(id);
@@ -110,9 +144,17 @@ public class ProductService {
         throw new RuntimeException("Không tìm thấy sản phẩm");
     }
 
-    public BigDecimal calPriceAfterDiscount(BigDecimal price, int discount) {
+    public String calPriceAfterDiscount(BigDecimal price, int discount) {
         BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100)));
-         BigDecimal priceAfterDiscount = price.subtract(discountAmount);
+        BigDecimal priceAfterDiscount = price.subtract(discountAmount);
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+        return fmt.format(priceAfterDiscount);
+
+    }
+    public BigDecimal calPriceAfterDiscountNoFormat(BigDecimal price, int discount) {
+        BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100)));
+        BigDecimal priceAfterDiscount = price.subtract(discountAmount);
        return priceAfterDiscount;
 
     }
@@ -128,40 +170,64 @@ public class ProductService {
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public void saveProduct(MultipartFile[] images, Product product) throws Exception {
+    public void saveProduct(MultipartFile[] images, Product product, String deletedImg[]) throws Exception {
+        List<ProductImages> newProductImages = new ArrayList<>();
         try {
             product.setSeo(Utilities.createSeoLink(product.getTitle()));
 
             if (product.getId() != null) { // chỉnh sửa
                 // lấy dữ liệu cũ của sản phẩm
                 Product productInDb = productRepo.findById(product.getId()).get();
+                List<ProductImages> oldProductImages = productInDb.getProductImages();
+                newProductImages.addAll(oldProductImages);
+                if (productInDb != null) {
+                    if (deletedImg.length != 0) { // nếu admin xoa ảnh sản phẩm                    
+//                        for (int i = 0; i < oldProductImages.size(); i++) {
+//                            ProductImages image = oldProductImages.get(i);
+//                            if (delImg.contains(image.getPath())) {
+//                                System.out.println("MZZ: " + image.getPath());
+//                                newProductImages.remove(i);
+//                                new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + image.getPath()).delete();
+//                                i--;
+//                            }
+//                        }
+                        Iterator<ProductImages> iterator = newProductImages.iterator();
+                        while (iterator.hasNext()) {
+                            ProductImages image = iterator.next();
+                            if (Arrays.asList(deletedImg).contains(image.getPath())) {
+                                iterator.remove();
+                                // Optionally, delete the file associated with the removed image
+                                new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + image.getPath()).delete();
+                                
+                               
+                            }
+                             
+                        }
+                        for(int z=0;z<deletedImg.length;z++){
+                            System.out.println("DELL3: " + deletedImg[z]);
+                        }
 
-                if (!isEmptyUploadFile(images)) { // nếu admin sửa ảnh sản phẩm
-                    // lấy danh sách ảnh của sản phẩm cũ
-                    List<ProductImages> productImages = productInDb.getProductImages();
-                    // xoá ảnh cũ đi
-                    for (ProductImages _images : productImages) {
-//                        new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload" + _images.getPath()).delete();
-                        new File("D:\\datingapp_index" + _images.getPath()).delete();
                     }
-                    product.clearProductImages();
-                } else { // ảnh phải giữ nguyên
-                    product.setProductImages(productInDb.getProductImages());
                 }
-
             }
+
             if (!isEmptyUploadFile(images)) { // nếu admin upload ảnh
+
                 for (MultipartFile image : images) {
                     // Lưu file vào host.
                     image.transferTo(new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload\\" + image.getOriginalFilename()));
+
                     ProductImages productImages = new ProductImages();
                     productImages.setTitle(image.getOriginalFilename());
                     productImages.setPath(image.getOriginalFilename());
+                    productImages.setProduct(product);
 
                     // cho quan hệ 1 - n
-                    product.addProductImages(productImages);
+                    newProductImages.add(productImages);
                 }
+
             }
+            product.setProductImages(newProductImages);
             productRepo.save(product);
         } catch (Exception e) {
             throw e;

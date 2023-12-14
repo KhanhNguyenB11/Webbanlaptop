@@ -31,7 +31,17 @@ public class HomeController extends BaseController {
     @Autowired
     ProductService productService;
     
-
+    private int check = 0;
+    @PostMapping("/sortChange")
+    public String choose(final ModelMap model, @RequestParam("check") String value, final HttpServletRequest request,
+            final HttpServletResponse response) throws Exception {
+        if("1".equals(value)){
+            check = 1;
+        }else if ("2".equals(value)){
+            check =2;
+        }
+        return "redirect:/home";
+    }
 //	@Autowired  //lấy bean từ container's spring.
 //	private CategoryRepo categoryRepo;
     @RequestMapping(value = {"/home", "/index", "/"}, method = RequestMethod.GET)
@@ -73,15 +83,38 @@ public class HomeController extends BaseController {
         productSearch.parseRequest(request);
         model.addAttribute("numberOP", numberOP);
         model.addAttribute("numberOfPage", numberOfPage);
+        List<Product> flashSale = productService.findFlashSale();
+        model.addAttribute("flashSale",flashSale);
+<<<<<<< HEAD
+        List<Product> list;
+        switch (check) {
+            default:
+                list = productService.search(productSearch);
+                break;
+            case 1:
+                list = productService.findProductsMaxToMin();
+                break;
+            case 2:
+                list = productService.findProductsMinToMax();
+                break;
+        }
+=======
         List<Product> list = productService.search(productSearch);
+>>>>>>> 6f6ef0b75b0e176815964fc80e21be4fb703f423
         list.forEach(p ->{
             if(p.getDiscount() > 0){
-                p.setPrice(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));
+                p.setPriceAfterDiscount(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));
+            }
+            else{
+                p.setPriceAfterDiscount(p.getPriceVN());
             }
         
         });
+
         model.addAttribute("products", list);
         return "users/UserHome";
     }
+
+
 
 }
