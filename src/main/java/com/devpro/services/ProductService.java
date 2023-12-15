@@ -67,6 +67,13 @@ public class ProductService {
             jpql += " and p.status= " + productSearch.getStatusProduct() + " and price <= " + productSearch.getMaxprice();
 
         }
+        if("HighToLow".equals(productSearch.getSort())){
+            jpql += " and p.status = "+productSearch.getStatusProduct() +" ORDER BY price DESC";
+        }
+
+        if("LowToHigh".equals(productSearch.getSort())){
+            jpql += " and p.status = "+productSearch.getStatusProduct() +" ORDER BY price ASC";
+        }
 
         Query query = entityManager.createQuery(jpql, Product.class);
 
