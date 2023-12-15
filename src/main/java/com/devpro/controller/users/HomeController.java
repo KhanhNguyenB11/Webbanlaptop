@@ -56,11 +56,14 @@ public class HomeController extends BaseController {
         String strPage = request.getParameter("page");
         String minprice = request.getParameter("minprice");
         String maxprice = request.getParameter("maxprice");
-        String sort = request.getParameter("sort");
+        //String sort = request.getParameter("sort");
         keyword = request.getParameter("keyword");
         productSearch.setStatusProduct(1);
-        if (sort != null) {
-            productSearch.setSort(sort);
+        if (check == 1) {
+            productSearch.setSort("HighToLow");
+        }
+        if (check == 2) {
+            productSearch.setSort("LowToHigh");
         }
         if (minprice != null) {
             productSearch.setMinprice(minprice);
@@ -72,7 +75,6 @@ public class HomeController extends BaseController {
             productSearch.setKeyword(keyword);
         }
         List<Product> product = productService.search(productSearch);
-
         int numberOfPage = product.size() / productSearch.SIZE_ITEMS_ON_PAGE + 1;
         System.out.println("numberOfPage: " + numberOfPage);
         ArrayList numberOP = new ArrayList();
@@ -86,18 +88,7 @@ public class HomeController extends BaseController {
         List<Product> flashSale = productService.findFlashSale();
         model.addAttribute("flashSale",flashSale);
 
-        List<Product> list;
-        switch (check) {
-            default:
-                list = productService.search(productSearch);
-                break;
-            case 1:
-                list = productService.findProductsMaxToMin();
-                break;
-            case 2:
-                list = productService.findProductsMinToMax();
-                break;
-        }
+        List<Product> list= productService.search(productSearch);     
         list.forEach(p ->{
             if(p.getDiscount() > 0){
                 p.setPriceAfterDiscount(productService.calPriceAfterDiscount(p.getPrice(), p.getDiscount()));
