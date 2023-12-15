@@ -18,16 +18,18 @@ public interface SaleOrderRepo extends JpaRepository<SaleOrder, Integer>  {
 
     List<SaleOrder> findByCustomerEmail(String customer_email);
     
-    @Query(nativeQuery = true, value = "SELECT COUNT(user_id) FROM tbl_saleorder GROUP BY user_id ORDER BY COUNT(user_id) DESC LIMIT 5;")
+    @Query(nativeQuery = true, value = "SELECT COUNT(user_id) FROM tbl_saleorder where not user_id = 'NULL' and status = '0' GROUP BY user_id ORDER BY SUM(total) DESC LIMIT 5;")
     List<Integer> findTop5OrderCount();
-    @Query(nativeQuery = true, value = "SELECT user_id FROM tbl_saleorder where not user_id = 'NULL' GROUP BY user_id ORDER BY COUNT(user_id) DESC LIMIT 5;")
+    @Query(nativeQuery = true, value = "SELECT user_id FROM tbl_saleorder where not user_id = 'NULL' and status = '0' GROUP BY user_id ORDER BY SUM(total) DESC LIMIT 5;")
     List<Integer> findTop5userID();
-    @Query(nativeQuery = true, value = "SELECT SUM(total) FROM tbl_saleorder GROUP BY user_id ORDER BY COUNT(user_id) DESC LIMIT 5;")
-    List<Integer> findTop5Total();
+    @Query(nativeQuery = true, value = "SELECT SUM(total) FROM tbl_saleorder where not user_id = 'NULL' and status = '0' GROUP BY user_id ORDER BY SUM(total) DESC LIMIT 5;")
+    List<Float> findTop5Total();
     
     
-    @Query(nativeQuery = true, value = "SELECT staff_id FROM tbl_saleorder GROUP BY staff_id ORDER BY COUNT(staff_id) DESC LIMIT 5;")
+    @Query(nativeQuery = true, value = "SELECT staff_id FROM tbl_saleorder where not staff_id = 'NULL' GROUP BY staff_id ORDER BY SUM(total) DESC LIMIT 5;")
     List<Integer> findTop5CreatedID();
-    @Query(nativeQuery = true, value = "SELECT COUNT(staff_id) FROM tbl_saleorder GROUP BY staff_id ORDER BY COUNT(staff_id) DESC LIMIT 5;")
+    @Query(nativeQuery = true, value = "SELECT COUNT(staff_id) FROM tbl_saleorder where not staff_id = 'NULL' GROUP BY staff_id ORDER BY SUM(total) DESC LIMIT 5;")
     List<Integer> findTop5OrderCreatedCount();
+    @Query(nativeQuery = true, value = "SELECT SUM(total) FROM tbl_saleorder where not staff_id = 'NULL' GROUP BY staff_id ORDER BY SUM(total) DESC LIMIT 5;")
+    List<Float> findTop5TotalByStaff();
 }

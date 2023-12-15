@@ -51,11 +51,11 @@
                                     </div>
                                     <div style="width: 550px;font-size:18px;color:blue;">
                                         <div><b><u>TOP 5 nhân viên bán hàng xuất sắc nhất:</u></b></div>
-                                        <div>ID Nhân viên: ${idnv_0} - Số hóa đơn bán được: ${counthd_0}</div>
-                                        <div>ID Nhân viên: ${idnv_1} - Số hóa đơn bán được: ${counthd_1}</div>
-                                        <div>ID Nhân viên: ${idnv_2} - Số hóa đơn bán được: ${counthd_2}</div>
-                                        <div>ID Nhân viên: ${idnv_3} - Số hóa đơn bán được: ${counthd_3}</div>
-                                        <div>ID Nhân viên: ${idnv_4} - Số hóa đơn bán được: ${counthd_4}</div>
+                                        <div>ID Nhân viên: ${idnv_0} - Số hóa đơn bán được: ${counthd_0} - Tổng giá trị: ${totalStaff_0}</div>
+                                        <div>ID Nhân viên: ${idnv_1} - Số hóa đơn bán được: ${counthd_1} - Tổng giá trị: ${totalStaff_1}</div>
+                                        <div>ID Nhân viên: ${idnv_2} - Số hóa đơn bán được: ${counthd_2} - Tổng giá trị: ${totalStaff_2}</div>
+                                        <div>ID Nhân viên: ${idnv_3} - Số hóa đơn bán được: ${counthd_3} - Tổng giá trị: ${totalStaff_3}</div>
+                                        <div>ID Nhân viên: ${idnv_4} - Số hóa đơn bán được: ${counthd_4} - Tổng giá trị: ${totalStaff_4}</div>
                                     </div>
                             </div>
                             <div class="container">

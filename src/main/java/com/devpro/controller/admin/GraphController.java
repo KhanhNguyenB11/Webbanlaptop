@@ -62,28 +62,26 @@ public class GraphController {
                 model.addAttribute("end", endOfWeek);
                 model.addAttribute("startOfWeek",start_week);
                 model.addAttribute("endOfWeek", end_week);
+                Locale locale = new Locale("vi", "VN");
+		NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                 List<Integer> top5userID = saleOrderRepo.findTop5userID();
-                for(int i=0;i<top5userID.size();i++){
+                List<Float> top5Total = saleOrderRepo.findTop5Total();
+                List<Integer> top5count = saleOrderRepo.findTop5OrderCount();
+                for(int i=0;i<top5Total.size();i++){
                     User username = userRepo.getOne(top5userID.get(i));
                     model.addAttribute("userID_"+Integer.toString(i), username.getUsername());
-                }
-                List<Integer> top5Total = saleOrderRepo.findTop5Total();
-                for(int i=0;i<top5Total.size();i++){
-                    model.addAttribute("total_"+Integer.toString(i), top5Total.get(i));
-                }
-                List<Integer> top5count = saleOrderRepo.findTop5OrderCount();
-                for(int i=0;i<top5count.size();i++){
+                    model.addAttribute("total_"+Integer.toString(i), fmt.format(top5Total.get(i)));
                     model.addAttribute("count_"+Integer.toString(i), top5count.get(i));
                 }
+                List<Float> top5TotalStaff = saleOrderRepo.findTop5TotalByStaff();
                 List<Integer> top5nvID = saleOrderRepo.findTop5CreatedID();
-                for(int i=0;i<top5nvID.size();i++){
-                    model.addAttribute("idnv_"+Integer.toString(i), top5nvID.get(i));
-                }
                 List<Integer> top5counthd = saleOrderRepo.findTop5OrderCreatedCount();
-                for(int i=0;i<top5counthd.size();i++){
+                for(int i=0;i<top5TotalStaff.size();i++){
+                    model.addAttribute("totalStaff_"+Integer.toString(i), fmt.format(top5TotalStaff.get(i)));
+                    model.addAttribute("idnv_"+Integer.toString(i), top5nvID.get(i));
                     model.addAttribute("counthd_"+Integer.toString(i), top5counthd.get(i));
                 }
-                
+
 		List<SaleOrder> saleOrders = saleOrderRepo.findAll();
 		Map<String, Integer> saleOrder = new LinkedHashMap<>();
                 Map<String, Integer> saleOrder_2 = new LinkedHashMap<>();
@@ -197,8 +195,7 @@ public class GraphController {
                 
 		model.addAttribute("saleOrder", saleOrder);
                 model.addAttribute("saleOrder_2", saleOrder_2);
-		Locale locale = new Locale("vi", "VN");
-		NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+		
 		String sums = fmt.format(sum);
 		model.addAttribute("sum", sums);
 		model.addAttribute("quantity", quantity);
