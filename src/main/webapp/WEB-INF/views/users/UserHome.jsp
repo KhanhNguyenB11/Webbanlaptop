@@ -93,12 +93,12 @@
                                     <a href="${base }/?price=3" onclick="">10.000.000đ - 15.000.000đ</a><br><br>
                                     <a href="${base }/?price=4" onclick="">15.000.000đ - 20.000.000đ</a><br><br>
                                     <a href="${base }/?price=5" onclick="">Lớn hơn 20.000.000đ</a>-->
-                            <form action="">
-                                <label for="minprice">Min:</label>
-                                <input type="number" name="minprice" id="minprice"><br>
+                            <form action="" style="display: flex; flex-direction: column; width: 75%;margin-left: 20px">
+                                <label for="minprice" ">Min:</label>
+                                <input type="number" name="minprice" id="minprice" >
                                 <label for="maxprice">Max:</label>
-                                <input type="number" name="maxprice" id="maxprice"><br>
-                                <button>Search</button>
+                                <input type="number" name="maxprice" id="maxprice">
+                                <button style="margin-top: 15px">Search</button>
 
                             </form>
                         </div>

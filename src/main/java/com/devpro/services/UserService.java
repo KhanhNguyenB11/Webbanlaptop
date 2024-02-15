@@ -155,7 +155,7 @@ public class UserService {
                 String avatar = userInDb.getAvatar();
                 if (!isEmptyUploadFile(images)) { // nếu admin sửa ảnh sản phẩm
                     // xoá ảnh cũ đi
-                    new File("D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload_avt/" + user.getAvatar()).delete();
+                    new File("D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload" + user.getAvatar()).delete();
 
                 } else { // ảnh phải giữ nguyên
                     user.setAvatar(avatar);
@@ -165,7 +165,7 @@ public class UserService {
                 for (MultipartFile image : images) {
                     // Lưu file vào host.
                     image.transferTo(new File(
-                            "D:/JavaWeb10_VuTheKhoa_Day27/com.devpro.shop/upload_avt/" + image.getOriginalFilename()));
+                            "D:\\IDM\\ShopLaptop-master_2\\ShopLaptop-master\\src\\main\\resources\\META-INF\\upload" + image.getOriginalFilename()));
                     user.setAvatar(image.getOriginalFilename());
                 }
             }

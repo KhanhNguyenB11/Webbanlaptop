@@ -150,8 +150,6 @@
                                         </div>
                                         <div class="my-content">
                                             <div>Một email vừa được gửi đến ${email}. Vui lòng kiểm tra Email.</div>
-                                            <p>Nếu không tìm thấy Email, bấm vào <a href="#">Đây</a> để gửi lại.</p>
-
                                     </div>
                                 </div>
                             </div>

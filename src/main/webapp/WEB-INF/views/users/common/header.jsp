@@ -65,7 +65,7 @@
                 <li><a href="${base}/login"> Đăng nhập </a></li>
                 <li><a href="${base}/signup">Đăng ký</a></li>
                 </sec:authorize>
-            <li><a href="${base}/contact">Liên hệ</a></li>
+            <li><a href="#">Liên hệ</a></li>
         </ul>
     </div>
     <!-- /toolbar -->

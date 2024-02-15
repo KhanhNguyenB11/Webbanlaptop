@@ -57,7 +57,6 @@
 
                                 <form:hidden path="id" />
                                 <input type="hidden" name="deletedImages" id="deletedImagesInput"/>
-
                                 <label>Tên sản phẩm</label>
                                 <br>
                                 <form:input type="text" path="title" />
@@ -133,7 +132,6 @@
                                 <label>Discount (%)</label>
                                 <br>
                                 <form:input type="number" path="discount"/>
-
                                 <label>Status</label>
                                 <form:checkbox path="status" style="margin:0px; width:15px; height:15px; margin-left:20px;"/>
                                 <br>
@@ -158,9 +156,7 @@
                 for (var i = 0; i < event.target.files.length; i++) {
                     console.log('File ' + (i + 1) + ':', event.target.files[i]);
                 }
-
             });
-
             function handleDeleteNewImage() {
                 let previewContainer = document.getElementById('imagePreviewContainer');
                 const input = document.getElementById("imageInput");
@@ -168,21 +164,16 @@
 
                 for (let i = 0; i < input.files.length; i++) {
                     previewContainer.remove(input.files[i].name);
-
                 }
-
                 input.value = "";
-
             }
             function displaySelectedImages(files) {
                 let previewContainer = document.getElementById('imagePreviewContainer');
-
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     // Check if the selected file is an image
                     if (file.type.match('image.*')) {
                         var reader = new FileReader();
-
                         reader.onload = function (e) {
                             // Create an image element and set its source to the data URL
                             var img = document.createElement('img');
@@ -191,12 +182,9 @@
                             img.width = 150;
                             img.id = file.name;
                             img.style.margin = '15px';
-
                             // Append the image to the preview container
                             previewContainer.appendChild(img);
-
                         };
-
                         // Read the selected file as a data URL
                         reader.readAsDataURL(file);
                     }
@@ -204,13 +192,11 @@
             }
             let deletedImages = [];
             function handleDeleteImg(imageId) {
-
                 if (!deletedImages.includes(imageId))
                     deletedImages.push(imageId);
                 console.log(deletedImages);
                 document.getElementById(imageId).remove();
                 event.stopPropagation();
-
             }
             function validateForm() {
                 //Update the deleted img to the form
@@ -222,27 +208,20 @@
                     alert('Vui lòng nhập Tên sản phẩm');
                     return false;
                 }
-
                 // Validate Giá sản phẩm
                 var price = document.getElementById('price').value.trim();
                 if (price === '' || isNaN(price) || parseFloat(price) <= 0) {
                     alert('Vui lòng nhập giá hợp lệ');
                     return false;
                 }
-
                 // Validate Discount (%)
                 var discount = document.getElementById('discount').value.trim();
                 if (discount !== '' && (isNaN(discount) || parseFloat(discount) < 0 || parseFloat(discount) > 100)) {
                     alert('Vui lòng nhập giảm giá hợp lệ (từ 0 đến 100)');
                     return false;
                 }
-
-
-
                 return true; // Form is valid, proceed with submission
             }
-
-
         </script>
     </body>
 </html>
