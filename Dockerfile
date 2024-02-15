@@ -3,6 +3,6 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/com.devpro.shop-0.0.1-SNAPSHOT.jar com.devpro.shop.jar
+COPY --from=build /target/com.devpro.shop-jar-with-dependencies.jar com.devpro.shop.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","com.devpro.shop.jar"]
